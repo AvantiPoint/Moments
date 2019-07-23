@@ -6,6 +6,10 @@
 *.user
 *.sln.docstates
 *.userprefs
+.vs/
+
+# NuGet
+[Pp]ackages/
 
 # Xamarin Components
 Components/
