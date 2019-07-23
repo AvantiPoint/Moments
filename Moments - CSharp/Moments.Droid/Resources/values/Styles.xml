@@ -1,6 +1,0 @@
-﻿<resources>
-  <style name="Theme.NoTitleBar" parent="android:Theme">
-    <item name="android:windowNoTitle">true</item>
-    <item name="android:textSize">30sp</item>
-  </style>
-</resources>
