@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<views:BasePage xmlns="http://xamarin.com/schemas/2014/forms" 
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                xmlns:views="clr-namespace:Moments.Views"
+                x:Class="Moments.Views.MomentsPage"
+                xmlns:local="clr-namespace:Moments;">
+    <StackLayout>
+        <ListView x:Name="momentsListView"
+				ItemsSource="{Binding Moments}"
+				IsPullToRefreshEnabled="true"
+				BackgroundColor="White"
+				RowHeight="70">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <local:MomentCell />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</views:BasePage>

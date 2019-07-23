@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<views:BasePage xmlns="http://xamarin.com/schemas/2014/forms" 
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                xmlns:views="clr-namespace:Moments.Views" 
+                x:Class="Moments.Views.FriendsPage"
+                xmlns:local="clr-namespace:Moments;">
+    <StackLayout>
+        <ListView x:Name="friendsListView"
+				ItemsSource="{Binding Friends}"
+				IsPullToRefreshEnabled="true"
+				BackgroundColor="White"
+				RowHeight="70">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <local:FriendCell />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</views:BasePage>
