@@ -4,6 +4,7 @@ using UIKit;
 using CoreGraphics;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
+using Microsoft.AppCenter.Crashes;
 
 [assembly: ExportRenderer (typeof (Moments.RoundedRectangleImage), typeof (Moments.iOS.RoundedRectangleImageRenderer))]
 namespace Moments.iOS
@@ -22,7 +23,7 @@ namespace Moments.iOS
 				Control.Layer.MasksToBounds = false;
 				Control.ClipsToBounds = true;
 			} catch (Exception ex) {
-				Xamarin.Insights.Report (ex);
+                Crashes.TrackError(ex);
 			}
 		}
 
@@ -38,7 +39,7 @@ namespace Moments.iOS
 					Control.Layer.MasksToBounds = false;
 					Control.ClipsToBounds = true;
 				} catch (Exception ex) {
-					Xamarin.Insights.Report (ex);
+                    Crashes.TrackError(ex);
 				}
 			}
 		}

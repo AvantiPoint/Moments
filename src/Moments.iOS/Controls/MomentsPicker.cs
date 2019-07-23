@@ -1,4 +1,5 @@
 using System;
+using Microsoft.AppCenter.Crashes;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
@@ -21,7 +22,7 @@ namespace Moments.iOS
 				Control.TextAlignment = UITextAlignment.Center;
 				Control.BorderStyle = UITextBorderStyle.None;
 			} catch (Exception ex) {
-				Xamarin.Insights.Report (ex);
+                Crashes.TrackError(ex);
 			}
 		}
 	}

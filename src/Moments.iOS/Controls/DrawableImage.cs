@@ -4,6 +4,7 @@ using System.Drawing;
 using CoreGraphics;
 using Xamarin.Forms.Platform.iOS;
 using Xamarin.Forms;
+using Microsoft.AppCenter.Crashes;
 
 // Source: https://github.com/MitchMilam/Drawit
 [assembly: ExportRenderer(typeof(Moments.DrawableImage), typeof(Moments.iOS.DrawableImageRenderer))]
@@ -21,7 +22,7 @@ namespace Moments.iOS
 			try {
 				SetNativeControl(new DrawView(CGRect.Empty));
 			} catch (Exception ex) {
-				Xamarin.Insights.Report (ex);
+				Crashes.TrackError(ex);
 			}
 		}
 

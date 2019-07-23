@@ -11,10 +11,9 @@
     <PackageReference Include="akavache.sqlite3" Version="6.5.9" />
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="2.1.1" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
     <PackageReference Include="Prism.DryIoc.Forms.Extended" Version="1.0.0.511-pre" />
     <PackageReference Include="Splat" Version="8.0.5" />
-    <PackageReference Include="SQLitePCL.raw_basic" Version="0.8.5" />
+    <PackageReference Include="SQLitePCLRaw.bundle_sqlcipher" Version="1.1.14" />
     <PackageReference Include="Xam.Plugins.Forms.ImageCircle" Version="3.0.0.5" />
     <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.2.0" />
     <PackageReference Include="Xamarin.Forms" Version="4.1.0.581479" />
