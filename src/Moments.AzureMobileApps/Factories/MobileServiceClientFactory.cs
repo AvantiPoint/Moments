@@ -5,15 +5,21 @@ using Microsoft.WindowsAzure.MobileServices;
 // Source: http://thirteendaysaweek.com/2013/12/13/xamarin-ios-and-authentication-in-windows-azure-mobile-services-part-iii-custom-authentication/
 namespace Moments
 {
-	public static class MobileServiceClientFactory
-	{
+    public static class MobileServiceClientFactory
+    {
         public static MobileServiceClient CreateClient() =>
             CreateClient(Array.Empty<HttpMessageHandler>());
 
-		public static MobileServiceClient CreateClient(params HttpMessageHandler[] handlers)
-		{
+        public static MobileServiceClient CreateClient(params HttpMessageHandler[] handlers)
+        {
+            // TODO: Replace this with something DI
             return new MobileServiceClient(Keys.ApplicationURL, handlers);
-			//return new MobileServiceClient (Keys.ApplicationURL, Keys.ApplicationKey, handlers);
-		}
-	}
+            //return new MobileServiceClient (Keys.ApplicationURL, Keys.ApplicationKey, handlers);
+        }
+
+        private class Keys
+        {
+            public const string ApplicationURL = "";
+        }
+    }
 }

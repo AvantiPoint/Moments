@@ -6,49 +6,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Acr.UserDialogs">
-      <Version>7.0.4</Version>
-    </PackageReference>
-    <PackageReference Include="akavache">
-      <Version>6.5.9</Version>
-    </PackageReference>
-    <PackageReference Include="akavache.sqlite3">
-      <Version>6.5.9</Version>
-    </PackageReference>
-    <PackageReference Include="Humanizer">
-      <Version>2.6.2</Version>
-    </PackageReference>
+    <PackageReference Include="Acr.UserDialogs" Version="7.0.4" />
+    <PackageReference Include="akavache" Version="6.5.9" />
+    <PackageReference Include="akavache.sqlite3" Version="6.5.9" />
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="2.1.1" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Azure.Mobile.Client" Version="4.1.1" />
-    <PackageReference Include="Microsoft.Bcl.Async">
-      <Version>1.0.168</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Bcl.Build">
-      <Version>1.0.21</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Net.Http">
-      <Version>2.2.29</Version>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.2</Version>
-    </PackageReference>
+    <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
     <PackageReference Include="Prism.DryIoc.Forms.Extended" Version="1.0.0.511-pre" />
-    <PackageReference Include="Splat">
-      <Version>8.0.5</Version>
-    </PackageReference>
-    <PackageReference Include="SQLitePCL.raw_basic">
-      <Version>0.8.5</Version>
-    </PackageReference>
-    <PackageReference Include="WindowsAzure.Storage">
-      <Version>9.3.3</Version>
-    </PackageReference>
-    <PackageReference Include="Xam.Plugins.Forms.ImageCircle">
-      <Version>3.0.0.5</Version>
-    </PackageReference>
+    <PackageReference Include="Splat" Version="8.0.5" />
+    <PackageReference Include="SQLitePCL.raw_basic" Version="0.8.5" />
+    <PackageReference Include="Xam.Plugins.Forms.ImageCircle" Version="3.0.0.5" />
     <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.2.0" />
-    <PackageReference Include="Xamarin.Forms">
-      <Version>4.1.0.581479</Version>
-    </PackageReference>
+    <PackageReference Include="Xamarin.Forms" Version="4.1.0.581479" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Moments.Abstractions\Moments.Abstractions.csproj" />
+    <ProjectReference Include="..\Moments.AzureMobileApps\Moments.AzureMobileApps.csproj" />
   </ItemGroup>
 </Project>
