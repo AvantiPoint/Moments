@@ -6,8 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="FodyWeavers.xsd" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Humanizer" Version="2.6.2" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Prism.Forms.Extended" Version="1.0.0.511-pre" />
+    <PackageReference Include="ReactiveUI" Version="9.19.5" />
+    <PackageReference Include="ReactiveUI.Fody" Version="9.19.5" />
   </ItemGroup>
 
 </Project>

@@ -81,7 +81,7 @@ namespace Moments
 			confirmCheckmarkButtonTapped.Tapped += async (sender, e) => {
 				var user = BindingContext as User;
 
-				await FriendService.Instance.AcceptFriendship (user);
+				await FriendService.AcceptFriendship (user);
 			};
 			confirmCheckmarkButton.GestureRecognizers.Add (confirmCheckmarkButtonTapped);
 
@@ -89,7 +89,7 @@ namespace Moments
 			denyCheckmarkButtonTapped.Tapped += async (sender, e) => {
 				var user = BindingContext as User;
 
-				await FriendService.Instance.DenyFriendship (user);
+				await FriendService.DenyFriendship (user);
 			};
 			denyCheckmarkButton.GestureRecognizers.Add (denyCheckmarkButtonTapped);
 		}

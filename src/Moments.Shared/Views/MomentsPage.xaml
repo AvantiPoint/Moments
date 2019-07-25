@@ -2,14 +2,21 @@
 <views:BasePage xmlns="http://xamarin.com/schemas/2014/forms" 
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
                 xmlns:views="clr-namespace:Moments.Views"
+                xmlns:prism="http://prismlibrary.com"
                 x:Class="Moments.Views.MomentsPage"
                 xmlns:local="clr-namespace:Moments;">
     <StackLayout>
         <ListView x:Name="momentsListView"
 				ItemsSource="{Binding Moments}"
 				IsPullToRefreshEnabled="true"
+                  RefreshCommand="{Binding FetchMomentsCommand}"
 				BackgroundColor="White"
 				RowHeight="70">
+            <ListView.Behaviors>
+                <prism:EventToCommandBehavior EventName="ItemTapped"
+                                              EventArgsParameterPath="Item"
+                                              Command="{Binding MomentTappedCommand}" />
+            </ListView.Behaviors>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <local:MomentCell />

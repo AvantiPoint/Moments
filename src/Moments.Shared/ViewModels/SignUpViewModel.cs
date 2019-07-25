@@ -2,111 +2,105 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Crashes;
+using Moments.Helpers;
+using Moments.Mvvm;
+using Moments.Services;
+using Prism.Logging;
+using Prism.Navigation;
+using Prism.Services.Dialogs;
+using ReactiveUI.Fody.Helpers;
 using Xamarin;
 using Xamarin.Forms;
 
-namespace Moments
+namespace Moments.ViewModels
 {
-	public class SignUpViewModel : BaseViewModel
-	{
-		string firstName;
-		string lastName;
-		string username;
-		string password;
-		string email;
+    public class SignUpViewModel : BaseViewModel
+    {
 
-		Command signUpUserCommand;
+        Command signUpUserCommand;
+        private IAccountService AccountService { get; }
 
-		public string FirstName
-		{
-			get { return firstName; }
-			set { firstName = value; OnPropertyChanged ("FirstName"); }
-		}
+        public SignUpViewModel(INavigationService navigationService, IDialogService dialogService, ILogger logger, IAccountService accountService) : base(navigationService, dialogService, logger)
+        {
+            AccountService = accountService;
+        }
 
-		public string LastName
-		{
-			get { return lastName; }
-			set { lastName = value; OnPropertyChanged ("LastName"); }
-		}
+        [Reactive] public string FirstName { get; set; }
 
-		public string Username
-		{
-			get { return username; }
-			set { username = value; OnPropertyChanged ("Username"); }
-		}
+        [Reactive] public string LastName { get; set; }
 
-		public string Password
-		{
-			get { return password; }
-			set { password = value; OnPropertyChanged ("Password"); }
-		}
+        [Reactive] public string Username { get; set; }
 
-		public string Email 
-		{
-			get { return email; }
-			set { email = value; OnPropertyChanged ("Email"); }
-		}
+        [Reactive] public string Password { get; set; }
 
-		public Command SignUpUserCommand
-		{
-			get { return signUpUserCommand ?? (signUpUserCommand = new Command (async () => await ExecuteSignUpUserCommand ())); }
-		}
+        [Reactive] public string Email { get; set; }
 
-		private async Task ExecuteSignUpUserCommand ()
-		{
-			if (IsBusy) {
-				return;
-			}
+        public Command SignUpUserCommand
+        {
+            get { return signUpUserCommand ?? (signUpUserCommand = new Command(async () => await ExecuteSignUpUserCommand())); }
+        }
 
-			IsBusy = true;
+        private async Task ExecuteSignUpUserCommand()
+        {
+            if (IsBusy)
+            {
+                return;
+            }
 
-			var user = new User {
-				Name = string.Format ("{0} {1}", FirstName, LastName),
-				ProfileImage = GravatarService.CalculateUrl (Email)
-			};
+            IsBusy = true;
 
-			var account = new Account {
-				Username = Username,
-				Password = Password,
-				Email = Email,
-				UserId = user.Id
-			};
-		
-			try
-			{
-				DialogService.ShowLoading (Strings.CreatingAccount);
-				if (await ConnectivityService.IsConnected ()) {
-					await CreateAccount (account, user);
+            var user = new User
+            {
+                Name = string.Format("{0} {1}", FirstName, LastName),
+                ProfileImage = GravatarService.CalculateUrl(Email)
+            };
 
-					await SignIn (account);
-					NavigateToMainUI ();
+            var account = new Account
+            {
+                Username = Username,
+                Password = Password,
+                Email = Email,
+                UserId = user.Id
+            };
 
-					DialogService.HideLoading ();
-				} else {
-					DialogService.ShowError (Strings.NoInternetConnection);
-				}
-			}
-			catch (Exception ex) 
-			{
+            try
+            {
+                DialogService.ShowLoading(Strings.CreatingAccount);
+                if (await ConnectivityService.IsConnected())
+                {
+                    await CreateAccount(account, user);
+
+                    await SignIn(account);
+                    NavigateToMainUI();
+
+                    DialogService.HideLoading();
+                }
+                else
+                {
+                    DialogService.ShowError(Strings.NoInternetConnection);
+                }
+            }
+            catch (Exception ex)
+            {
                 Crashes.TrackError(ex);
-			}
+            }
 
-			IsBusy = false;
-		}
+            IsBusy = false;
+        }
 
-		private async Task CreateAccount (Account account, User user)
-		{
-			await AccountService.Instance.Register (account, user);
-		}
+        private async Task CreateAccount(Account account, User user)
+        {
+            await AccountService.Register(account, user);
+        }
 
-		private async Task SignIn (Account account)
-		{
-			await AccountService.Instance.Login (account);
-		}
+        private async Task SignIn(Account account)
+        {
+            await AccountService.Login(account);
+        }
 
-		private void NavigateToMainUI ()
-		{
-			App.Current.MainPage = App.FetchMainUI ();
-		}
-	}
+        private void NavigateToMainUI()
+        {
+            App.Current.MainPage = App.FetchMainUI();
+        }
+    }
 }

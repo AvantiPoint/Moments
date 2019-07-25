@@ -1,25 +1,27 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using Microsoft.WindowsAzure.MobileServices;
+using Moments.AzureMobileApps.Helpers;
+using Prism.Ioc;
 
 // Source: http://thirteendaysaweek.com/2013/12/13/xamarin-ios-and-authentication-in-windows-azure-mobile-services-part-iii-custom-authentication/
 namespace Moments
 {
-    public static class MobileServiceClientFactory
+    public class MobileServiceClientFactory : IMobileServiceClientFactory
     {
-        public static MobileServiceClient CreateClient() =>
-            CreateClient(Array.Empty<HttpMessageHandler>());
+        private IZumoConfig Config { get; }
+        private IContainerProvider Container { get; }
 
-        public static MobileServiceClient CreateClient(params HttpMessageHandler[] handlers)
+        public MobileServiceClientFactory(IZumoConfig config, IContainerExtension container)
         {
-            // TODO: Replace this with something DI
-            return new MobileServiceClient(Keys.ApplicationURL, handlers);
-            //return new MobileServiceClient (Keys.ApplicationURL, Keys.ApplicationKey, handlers);
+            Config = config;
+            Container = container;
         }
 
-        private class Keys
+        public IDisposableMobileServiceClient CreateClient(params HttpMessageHandler[] handlers)
         {
-            public const string ApplicationURL = "";
+            var client = Container.Resolve<IMobileServiceClient>((typeof(string), Config.ApplicationURL), (typeof(HttpMessageHandler[]), handlers));
+
+            return new DisposibleClient(client);
         }
     }
 }

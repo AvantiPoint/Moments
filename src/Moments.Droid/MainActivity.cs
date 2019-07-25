@@ -1,9 +1,7 @@
-﻿using System;
-
+﻿
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
@@ -16,19 +14,19 @@ using Microsoft.WindowsAzure.MobileServices;
 
 namespace Moments.Droid
 {
-	[Activity (Label = "Moments", Icon = "@drawable/momentsiconmini", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, NoHistory = true, ScreenOrientation = ScreenOrientation.Portrait)]
-	public class MainActivity : FormsApplicationActivity
-	{
-		protected override void OnCreate (Bundle bundle)
-		{
-			base.OnCreate (bundle);
+    [Activity(Label = "Moments", Icon = "@drawable/momentsiconmini", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, NoHistory = true, ScreenOrientation = ScreenOrientation.Portrait)]
+    public class MainActivity : FormsApplicationActivity
+    {
+        protected override void OnCreate(Bundle bundle)
+        {
+            base.OnCreate(bundle);
 
-			Forms.Init (this, bundle);
+            Forms.Init(this, bundle);
             UserDialogs.Init(() => (Activity)Forms.Context);
             CurrentPlatform.Init();
-			LoadApplication (new App ());
+            LoadApplication(new App());
 
-			ScreenshotServiceAndroid.Activity = this;
-		}
-	}
+            ScreenshotServiceAndroid.Activity = this;
+        }
+    }
 }

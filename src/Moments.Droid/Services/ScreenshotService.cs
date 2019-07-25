@@ -3,30 +3,40 @@ using System.IO;
 using Android.App;
 
 using Android.Graphics;
+using Moments.Events;
+using Prism.Events;
 
 // Source: http://danielhindrikes.se/xamarin/building-a-screenshotmanager-to-capture-the-screen-with-code/
-[assembly: Xamarin.Forms.Dependency (typeof (Moments.Droid.ScreenshotServiceAndroid))]
 namespace Moments.Droid
 {
-	public class ScreenshotServiceAndroid : ScreenshotService
-	{
-		public static Activity Activity { get; set; }
+    public class ScreenshotServiceAndroid : IScreenshotService
+    {
+        public static Activity Activity { get; set; }
 
-		public byte[] CaptureScreen ()
-		{
-			var view = Activity.Window.DecorView;
-			view.DrawingCacheEnabled = true;
+        private IEventAggregator EventAggregator { get; }
 
-			var bitmap = view.GetDrawingCache(true);
+        public ScreenshotServiceAndroid(IEventAggregator eventAggregator)
+        {
+            EventAggregator = eventAggregator;
+        }
 
-			byte[] bitmapData;
-			using (var stream = new MemoryStream ())
-			{
-				bitmap.Compress (Bitmap.CompressFormat.Png, 0, stream);
-				bitmapData = stream.ToArray ();
-			}
+        public byte[] CaptureScreen()
+        {
+            EventAggregator.GetEvent<HideButtonsEvent>().Publish();
 
-			return bitmapData;
-		}
-	}
+            var view = Activity.Window.DecorView;
+            view.DrawingCacheEnabled = true;
+
+            var bitmap = view.GetDrawingCache(true);
+
+            byte[] bitmapData;
+            using (var stream = new MemoryStream())
+            {
+                bitmap.Compress(Bitmap.CompressFormat.Png, 0, stream);
+                bitmapData = stream.ToArray();
+            }
+
+            return bitmapData;
+        }
+    }
 }

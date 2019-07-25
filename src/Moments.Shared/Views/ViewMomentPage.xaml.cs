@@ -1,39 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Xamarin.Forms;
 
 namespace Moments.Views
 {
-	public partial class ViewMomentPage : ContentPage
-	{
-		public ViewMomentPage (string image, TimeSpan viewMomentTime)
-		{
-			BindingContext = new ViewMomentViewModel (image, viewMomentTime);
+    public partial class ViewMomentPage
+    {
+        //public ViewMomentPage (string image, TimeSpan viewMomentTime)
+        public ViewMomentPage()
+        {
+            //BindingContext = new ViewMomentViewModel (image, viewMomentTime);
 
-			InitializeComponent ();
-		}
+            InitializeComponent();
+        }
 
-		private ViewMomentViewModel ViewModel
-		{
-			get { return BindingContext as ViewMomentViewModel; }
-		}
+        private void SetupUserInterface()
+        {
+            momentImage.PropertyChanged += (sender, args) =>
+            {
+                var image = (Image)sender;
 
-		private void SetupUserInterface ()
-		{
-			momentImage.PropertyChanged += (sender, args) =>
-			{
-				var image = (Image) sender;
-
-				if (args.PropertyName == "IsLoading" && !image.IsLoading)
-				{
-					Device.StartTimer (ViewModel.MomentViewTime, () => {
-						Navigation.PopModalAsync ();
-						return false;
-					});
-				}
-			};
-		}
-	}
+                if (args.PropertyName == "IsLoading" && !image.IsLoading)
+                {
+                    Device.StartTimer(ViewModel.MomentViewTime, () => {
+                        Navigation.PopModalAsync();
+                        return false;
+                    });
+                }
+            };
+        }
+    }
 }
 

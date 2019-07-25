@@ -1,79 +1,90 @@
 using System;
 using System.Threading.Tasks;
-using Microsoft.AppCenter.Crashes;
+using Moments.Helpers;
+using Moments.Mvvm;
+using Moments.Services;
+using Prism.Logging;
+using Prism.Navigation;
+using Prism.Services.Dialogs;
+using ReactiveUI.Fody.Helpers;
 using Xamarin.Forms;
 
 namespace Moments
 {
-	public class SignInViewModel : BaseViewModel
-	{
-		string username;
-		string password;
+    public class SignInViewModel : BaseViewModel
+    {
+        private IAccountService AccountService { get; }
 
-		Command logInUserCommand;
+        public SignInViewModel(INavigationService navigationService, IDialogService dialogService, IAccountService accountService, ILogger logger)
+            : base(navigationService, dialogService, logger)
+        {
+            AccountService = accountService;
+        }
 
-		public string Username
-		{
-			get { return username; }
-			set { username = value; OnPropertyChanged ("Username"); }
-		}
+        Command logInUserCommand;
 
-		public string Password
-		{
-			get { return password; }
-			set { password = value; OnPropertyChanged ("Password"); }
-		}
+        [Reactive]public string Username { get; set; }
 
-		public Command SignInUserCommand
-		{
-			get { return logInUserCommand ?? (logInUserCommand = new Command (async () => await ExecuteSignInUserCommand ())); }
-		}
+        [Reactive]public string Password { get; set; }
 
-		private async Task ExecuteSignInUserCommand ()
-		{
-			if (IsBusy) {
-				return;
-			}
+        public Command SignInUserCommand
+        {
+            get { return logInUserCommand ?? (logInUserCommand = new Command(async () => await ExecuteSignInUserCommand())); }
+        }
 
-			IsBusy = true;
+        private async Task ExecuteSignInUserCommand()
+        {
+            if (IsBusy)
+            {
+                return;
+            }
 
-			try
-			{
-				DialogService.ShowLoading (Strings.SigningIn);
-				if (await ConnectivityService.IsConnected ()) {
-					var result = await SignIn ();
-					DialogService.HideLoading ();
+            IsBusy = true;
 
-					if (result) {
-						NavigateToMainUI ();
-					} else {
-						DialogService.ShowError (Strings.InvalidCredentials);
-					}
-				} else {
-					DialogService.ShowError (Strings.NoInternetConnection);
-				}
-			}
-			catch (Exception ex) 
-			{
-                Crashes.TrackError(ex);
-			}
+            try
+            {
+                DialogService.ShowLoading(Strings.SigningIn);
+                if (await ConnectivityService.IsConnected())
+                {
+                    var result = await SignIn();
+                    DialogService.HideLoading();
 
-			IsBusy = false;
-		}
+                    if (result)
+                    {
+                        NavigateToMainUI();
+                    }
+                    else
+                    {
+                        DialogService.ShowError(Strings.InvalidCredentials);
+                    }
+                }
+                else
+                {
+                    DialogService.ShowError(Strings.NoInternetConnection);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Report(ex);
+            }
 
-		private async Task<bool> SignIn ()
-		{
-			var account = new Account {
-				Username = Username,
-				Password = Password
-			};
+            IsBusy = false;
+        }
 
-			return await AccountService.Instance.Login (account);
-		}
+        private async Task<bool> SignIn()
+        {
+            var account = new Account
+            {
+                Username = Username,
+                Password = Password
+            };
 
-		private void NavigateToMainUI ()
-		{
-			App.Current.MainPage = App.FetchMainUI ();
-		}
-	}
+            return await AccountService.Login(account);
+        }
+
+        private void NavigateToMainUI()
+        {
+            App.Current.MainPage = App.FetchMainUI();
+        }
+    }
 }

@@ -1,28 +1,25 @@
 using System;
-using System.Net;
-using Xamarin.Forms;
+using Moments.Mvvm;
+using Prism.AppModel;
+using Prism.Logging;
+using Prism.Navigation;
+using Prism.Services.Dialogs;
+using ReactiveUI.Fody.Helpers;
 
-namespace Moments
+namespace Moments.ViewModels
 {
-	public class ViewMomentViewModel : BaseViewModel
-	{
-		string image;
-		TimeSpan momentViewTime;
+    public class ViewMomentViewModel : BaseViewModel, IAutoInitialize
+    {
+        public ViewMomentViewModel(INavigationService navigationService, IDialogService dialogService, ILogger logger) : base(navigationService, dialogService, logger)
+        {
+        }
 
-		public ViewMomentViewModel (string momentUrl, TimeSpan viewTime)
-		{
-			image = momentUrl;
-			momentViewTime = viewTime;
-		}
+        [AutoInitialize(true)]
+        [Reactive]
+        public string Image { get; set; }
 
-		public string Image
-		{
-			get { return image; }
-		}
-
-		public TimeSpan MomentViewTime
-		{
-			get { return momentViewTime; }
-		}
-	}
+        [AutoInitialize(true)]
+        [Reactive]
+        public TimeSpan MomentViewTime { get; set; }
+    }
 }

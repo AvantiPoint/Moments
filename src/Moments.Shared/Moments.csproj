@@ -4,6 +4,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Moments</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="FodyWeavers.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="7.0.4" />
@@ -12,6 +17,7 @@
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="2.1.1" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="2.1.1" />
     <PackageReference Include="Prism.DryIoc.Forms.Extended" Version="1.0.0.511-pre" />
+    <PackageReference Include="ReactiveUI.Fody" Version="10.0.1-preview.6" />
     <PackageReference Include="Splat" Version="8.0.5" />
     <PackageReference Include="SQLitePCLRaw.bundle_sqlcipher" Version="1.1.14" />
     <PackageReference Include="Xam.Plugins.Forms.ImageCircle" Version="3.0.0.5" />

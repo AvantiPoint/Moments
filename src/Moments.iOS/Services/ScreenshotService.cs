@@ -1,24 +1,29 @@
 ﻿using System;
 using CoreGraphics;
 using Foundation;
+using Moments.Events;
+using Prism.Events;
 using UIKit;
 
-[assembly: Xamarin.Forms.Dependency (typeof (Moments.iOS.ScreenshotServiceiOS))]
 namespace Moments.iOS
 {
-	public class ScreenshotServiceiOS : ScreenshotService
-	{
-		public ScreenshotServiceiOS ()
-		{
-			
-		}
+    public class ScreenshotServiceiOS : IScreenshotService
+    {
+        private IEventAggregator EventAggregator { get; }
 
-		public byte[] CaptureScreen ()
-		{
-			var screenshot = UIScreen.MainScreen.Capture ();
+        public ScreenshotServiceiOS(IEventAggregator eventAggregator)
+        {
+            EventAggregator = eventAggregator;
+        }
 
-			return screenshot.AsJPEG ().ToArray ();
-		}
-	}
+        public byte[] CaptureScreen()
+        {
+            EventAggregator.GetEvent<HideButtonsEvent>().Publish();
+
+            var screenshot = UIScreen.MainScreen.Capture();
+
+            return screenshot.AsJPEG().ToArray();
+        }
+    }
 }
 

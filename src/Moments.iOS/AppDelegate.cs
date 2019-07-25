@@ -11,19 +11,20 @@ using Microsoft.WindowsAzure.MobileServices;
 
 namespace Moments.iOS
 {
-	[Register ("AppDelegate")]
-	public partial class AppDelegate : Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
-	{
-		public override bool FinishedLaunching (UIApplication app, NSDictionary options)
-		{
-			Forms.Init ();
-			ImageCircleRenderer.Init ();
-			CurrentPlatform.Init ();
-			LoadApplication (new App ());
+    [Register("AppDelegate")]
+    public partial class AppDelegate : Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
+    {
+        public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+        {
+            
+            Forms.Init();
+            ImageCircleRenderer.Init();
+            CurrentPlatform.Init();
+            LoadApplication(new App());
 
-			Setup.Init ();
+            Setup.Init();
 
-			return base.FinishedLaunching (app, options);
-		}
-	}
+            return base.FinishedLaunching(app, options);
+        }
+    }
 }

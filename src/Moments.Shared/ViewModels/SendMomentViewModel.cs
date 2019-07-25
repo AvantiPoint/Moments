@@ -3,87 +3,104 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
-using Microsoft.AppCenter.Crashes;
+using Moments.Mvvm;
+using Moments.Services;
+using Prism.Logging;
 using Xamarin.Forms;
+using Prism.Navigation;
+using Prism.Services.Dialogs;
+using ReactiveUI.Fody.Helpers;
+using Moments.Helpers;
 
-namespace Moments
+namespace Moments.ViewModels
 {
-	public class SendMomentViewModel : BaseViewModel
-	{
-		Stream imageData;
-		int displayTime;
-		ObservableCollection<User> friends;
-		Page page;
+    public class SendMomentViewModel : BaseViewModel
+    {
+        private IFriendService FriendService { get; }
+        private IMomentService MomentService { get; }
 
-		Command sendMomentCommand;
+        byte[] imageData;
+        int displayTime;
 
-		public SendMomentViewModel (Page sendMomentPage, Stream image, int momentDisplayTime)
-		{
-			Title = Strings.SendMoment;
+        Command sendMomentCommand;
+        protected override void Initialize(INavigationParameters parameters)
+        {
+            imageData = parameters.GetValue<byte[]>("image");
+            displayTime = parameters.GetValue<int>("momentDisplayTime");
+        }
 
-			friends = FriendService.Instance.Friends;
-			imageData = image;
-			displayTime = momentDisplayTime;
-			page = sendMomentPage;
-		}
+        public SendMomentViewModel(INavigationService navigationService, IDialogService dialogService, ILogger logger, IFriendService friendService, IMomentService momentService) : base(navigationService, dialogService, logger)
+        {
+            FriendService = friendService;
+            MomentService = momentService;
 
-		public ObservableCollection<User> Friends
-		{
-			get { return friends; }
-			set { friends = value; OnPropertyChanged ("Friends"); }
-		}
+            Title = Strings.SendMoment;
 
-		public Command SendMomentCommand
-		{
-			get { return sendMomentCommand ?? (sendMomentCommand = new Command (async () => await ExecuteSendMomentCommand ())); }
-		}
+            Friends = FriendService.Friends;
+        }
 
-		public async Task ExecuteSendMomentCommand ()
-		{
-			if (IsBusy) {
-				return;
-			}
+        [Reactive]public ObservableCollection<User> Friends { get; set; }
 
-			IsBusy = true;
+        public Command SendMomentCommand
+        {
+            get { return sendMomentCommand ?? (sendMomentCommand = new Command(async () => await ExecuteSendMomentCommand())); }
+        }
 
-			try 
-			{
-				DialogService.ShowLoading (Strings.SendingMoment);
-				if (await ConnectivityService.IsConnected ()) {
-					var success = await SendImage ();
-					DialogService.HideLoading ();
-					if (success) {
-						DialogService.ShowSuccess (Strings.MomentSent, 1);
-						await page.Navigation.PopModalAsync ();
-					} else {
-						DialogService.ShowError (Strings.ErrorOcurred);
-					}
-				} else {
-					DialogService.ShowError (Strings.NoInternetConnection);
-				}
-			}
-			catch (Exception ex) 
-			{
-                Crashes.TrackError(ex);
-			}
+        public async Task ExecuteSendMomentCommand()
+        {
+            if (IsBusy)
+            {
+                return;
+            }
 
-			IsBusy = false;
-		}
+            IsBusy = true;
 
-		private async Task<bool> SendImage ()
-		{
-			var recipients = new List<User> ();
-			await Task.Run (() => {
-				foreach (var friend in Friends) {
-					if (friend.SendMoment) {
-						recipients.Add (friend);
-					}
+            try
+            {
+                DialogService.ShowLoading(Strings.SendingMoment);
+                if (await ConnectivityService.IsConnected())
+                {
+                    var success = await SendImage();
+                    DialogService.HideLoading();
+                    if (success)
+                    {
+                        DialogService.ShowSuccess(Strings.MomentSent, 1);
+                        await NavigationService.GoBackAsync();
+                    }
+                    else
+                    {
+                        DialogService.ShowError(Strings.ErrorOcurred);
+                    }
+                }
+                else
+                {
+                    DialogService.ShowError(Strings.NoInternetConnection);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Report(ex);
+            }
 
-					friend.SendMoment = false;
-				}
-			});
+            IsBusy = false;
+        }
 
-			return await MomentService.Instance.SendMoment (imageData, recipients, displayTime);
-		}
-	}
+        private async Task<bool> SendImage()
+        {
+            var recipients = new List<User>();
+            await Task.Run(() => {
+                foreach (var friend in Friends)
+                {
+                    if (friend.SendMoment)
+                    {
+                        recipients.Add(friend);
+                    }
+
+                    friend.SendMoment = false;
+                }
+            });
+
+            return await MomentService.SendMoment(new MemoryStream(imageData), recipients, displayTime);
+        }
+    }
 }

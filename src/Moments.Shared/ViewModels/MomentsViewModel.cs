@@ -2,91 +2,120 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using Microsoft.AppCenter.Crashes;
+using Moments.Services;
+using Prism.Logging;
 using Xamarin.Forms;
+using Prism.Navigation;
+using Prism.Services.Dialogs;
+using Moments.Helpers;
+using Moments.Mvvm;
+using ReactiveUI.Fody.Helpers;
+using ReactiveUI;
+using System.Reactive;
 
-namespace Moments
+namespace Moments.ViewModels
 {
-	public class MomentsViewModel : BaseViewModel
-	{
-		private ObservableCollection<Moment> moments;
+    public class MomentsViewModel : BaseViewModel
+    {
+        private IMomentService MomentService { get; }
 
-		private Command fetchMomentsCommand;
-		private Command destroyImageCommand;
+        private Command fetchMomentsCommand;
+        private Command destroyImageCommand;
 
-		public MomentsViewModel ()
-		{
-			moments = new ObservableCollection<Moment> ();
-		}
+        public MomentsViewModel(INavigationService navigationService, IDialogService dialogService, IMomentService momentService, ILogger logger)
+            : base(navigationService, dialogService, logger)
+        {
+            MomentService = momentService;
+            Moments = new ObservableCollection<Moment>();
+        }
 
-		public ObservableCollection<Moment> Moments
-		{
-			get { return moments; }
-			set { moments = value; OnPropertyChanged ("Moments"); }
-		}
+        [Reactive]public ObservableCollection<Moment> Moments { get; set; }
 
-		public Command FetchMomentsCommand
-		{
-			get { return fetchMomentsCommand ?? (fetchMomentsCommand = new Command (async () => await ExecuteFetchMomentsCommand ())); }
-		}
+        public ReactiveCommand<Moment, Unit> MomentTappedCommand { get; }
 
-		public Command DestroyImageCommand
-		{
-			get { return destroyImageCommand ?? (destroyImageCommand = new Command (async (object parameter) => await ExecuteDestroyImageCommand (parameter))); }
-		}
+        private async Task OnMomentTappedCommandExecuted(Moment moment)
+        {
+            await NavigationService.NavigateAsync($"ViewMomentPage?{KnownNavigationParameters.UseModalNavigation}=true", new NavigationParameters
+            {
+                { "MomentViewTime", TimeSpan.FromSeconds (moment.DisplayTime) },
+                { "Image", moment.MomentUrl }
+            });
 
-		public async Task ExecuteFetchMomentsCommand ()
-		{
-			if (IsBusy) {
-				return;
-			}
+            await ExecuteDestroyImageCommand(moment);
+        }
 
-			IsBusy = true;
+        public Command FetchMomentsCommand
+        {
+            get { return fetchMomentsCommand ?? (fetchMomentsCommand = new Command(async () => await ExecuteFetchMomentsCommand())); }
+        }
 
-			try
-			{
-				if (await ConnectivityService.IsConnected ()) {
-					Moments.Clear ();
-					var refreshedMoments = await MomentService.Instance.GetMoments ();
-					Moments.AddRange (refreshedMoments);
-				} else {
-					DialogService.ShowError (Strings.NoInternetConnection);
-				}
-			}
-			catch (Exception ex) 
-			{
-                Crashes.TrackError(ex);
-			}
+        public Command DestroyImageCommand
+        {
+            get { return destroyImageCommand ?? (destroyImageCommand = new Command(async (object parameter) => await ExecuteDestroyImageCommand(parameter))); }
+        }
 
-			IsBusy = false;
-		}
+        public async Task ExecuteFetchMomentsCommand()
+        {
+            if (IsBusy)
+            {
+                return;
+            }
 
-		public async Task ExecuteDestroyImageCommand (object parameter)
-		{
-			if (IsBusy) {
-				return;
-			}
+            IsBusy = true;
 
-			IsBusy = true;
+            try
+            {
+                if (await ConnectivityService.IsConnected())
+                {
+                    Moments.Clear();
+                    var refreshedMoments = await MomentService.GetMoments();
+                    Moments.AddRange(refreshedMoments);
+                }
+                else
+                {
+                    DialogService.ShowError(Strings.NoInternetConnection);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Report(ex);
+            }
 
-			try
-			{
-				var moment = parameter as Moment;
-				await DestroyImage (moment);
-			}
-			catch (Exception ex) 
-			{
-                Crashes.TrackError(ex);
-			}
+            IsBusy = false;
+        }
 
-			IsBusy = false;
-		}
+        public async Task ExecuteDestroyImageCommand(object parameter)
+        {
+            if (IsBusy)
+            {
+                return;
+            }
 
-		private async Task DestroyImage (Moment moment)
-		{
-			Moments.Remove (moment);
+            IsBusy = true;
 
-			await MomentService.Instance.DestroyMoment (moment);
-		}
-	}
+            try
+            {
+                var moment = parameter as Moment;
+                await DestroyImage(moment);
+            }
+            catch (Exception ex)
+            {
+                Logger.Report(ex);
+            }
+
+            IsBusy = false;
+        }
+
+        private async Task DestroyImage(Moment moment)
+        {
+            Moments.Remove(moment);
+
+            await MomentService.DestroyMoment(moment);
+        }
+
+        protected override void OnAppearing()
+        {
+            FetchMomentsCommand.Execute(null);
+        }
+    }
 }

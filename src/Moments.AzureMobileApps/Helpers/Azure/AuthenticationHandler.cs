@@ -7,20 +7,20 @@ using Akavache;
 using System.Reactive.Linq;
 using System.Reactive;
 using Xamarin.Essentials.Interfaces;
+using Moments.Services;
 
 // Source: http://thirteendaysaweek.com/2013/12/13/xamarin-ios-and-authentication-in-windows-azure-mobile-services-part-iii-custom-authentication/
-namespace Moments
+namespace Moments.AzureMobileApps.Helpers.Azure
 {
 	public class AuthenticationHandler : DelegatingHandler
 	{
+        private IAccountService AccountService { get; }
         private IPreferences Preferences { get; }
 
-        // TODO: Remove redundant ctor
-        public AuthenticationHandler() : this(new Xamarin.Essentials.Implementation.PreferencesImplementation()) { }
-
-        public AuthenticationHandler(IPreferences preferences)
+        public AuthenticationHandler(IPreferences preferences, IAccountService accountService)
         {
             Preferences = preferences;
+            AccountService = accountService;
         }
 
 		protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
@@ -38,7 +38,7 @@ namespace Moments
 
 		private void SaveAuthenticationToken (string token)
 		{
-			AccountService.Instance.AuthenticationToken = token;
+			AccountService.AuthenticationToken = token;
 			Preferences.Set("authenticationKey", token);
 			Preferences.Set("tokenExpiration", DateTime.Now.AddDays (30));
 		}
