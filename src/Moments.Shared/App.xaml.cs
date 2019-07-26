@@ -13,6 +13,7 @@ using Moments.AzureMobileApps.Helpers;
 using Prism;
 using Prism.Events;
 using Moments.Events;
+using Moments.Dialogs;
 
 namespace Moments
 {
@@ -152,6 +153,9 @@ namespace Moments
             containerRegistry.RegisterForNavigation<WelcomePage, WelcomePageViewModel>();
             containerRegistry.RegisterForNavigation<SignInPage, SignInViewModel>();
             containerRegistry.RegisterForNavigation<SignUpPage, SignUpViewModel>();
+
+            containerRegistry.RegisterDialog<AlertDialog, AlertDialogViewModel>();
+            containerRegistry.RegisterDialog<LoadingView, LoadingViewModel>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
