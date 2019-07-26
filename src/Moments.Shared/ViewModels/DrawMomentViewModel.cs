@@ -29,7 +29,7 @@ namespace Moments.ViewModels
             SendCommand = ReactiveCommand.CreateFromTask(OnSendCommandExecuted);
         }
 
-        [AutoInitialize(true)]
+        [AutoInitialize("imageBytes", true)]
         [Reactive]
         public byte[] Image { get; set; }
 

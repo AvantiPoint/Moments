@@ -5,15 +5,15 @@ using Xamarin.Essentials.Interfaces;
 
 namespace Moments
 {
-	public class ConnectivityService
-	{
+    public class ConnectivityService
+    {
         //private IConnectivity Connectivity { get; }
 
-		public static Task<bool> IsConnected ()
-		{
+        public static Task<bool> IsConnected()
+        {
             return Task.FromResult(Connectivity.NetworkAccess == NetworkAccess.Internet);
-			//return Connectivity.ConnectionProfiles.IsRemoteReachable (Keys.ApplicationMobileService, 80, 5000);
-		}
-	}
+            //return Connectivity.ConnectionProfiles.IsRemoteReachable (Keys.ApplicationMobileService, 80, 5000);
+        }
+    }
 }
 
