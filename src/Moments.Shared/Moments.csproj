@@ -16,6 +16,10 @@
     <PackageReference Include="akavache.sqlite3" Version="6.5.9" />
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="2.1.1" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="2.1.1" />
+    <PackageReference Include="Mobile.BuildTools" Version="1.4.0.638">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Prism.DryIoc.Forms.Extended" Version="1.0.0.511-pre" />
     <PackageReference Include="ReactiveUI.Fody" Version="10.0.1-preview.6" />
     <PackageReference Include="Splat" Version="8.0.5" />

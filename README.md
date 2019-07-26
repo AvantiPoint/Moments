@@ -44,8 +44,8 @@ app follow the instructions below to:
 
 - configure Azure Mobile Services,
 - configure Azure Storage,
-- setup Xamarin Insights, and
-- add the required constants to the `Keys` class in the app
+- setup App Center, and
+- rename or copy the `sample.json` to `secrets.json` and add the required values
 
 ### Instructions
 
@@ -104,15 +104,7 @@ The backend for your Snapchat clone is now complete. :)
 
 #### Run the Xamarin App (iOS or Android)
 
-- Open the solution for *Moments* and navigate to `Helpers/Keys.cs`. Paste in relevant keys and information as seen below:
-    ![Keys.cs](Screenshots/README/Keys.png)
-    These values come from:
-    - `ApplicationURL` - Azure Mobile Services DASHBOARD > MOBILE SERVICE URL
-    - `ApplicationMobileService` - Azure Mobile Services DASHBOARD > MOBILE SERVICE URL
-    - `ApplicationKey` - Azure Mobile Services DASHBOARD > MANAGE KEYS > APPLICATION KEY
-    - `ContainerURL` - Azure Storage CONTAINERS page NAME column
-    - `ContainerName` - Azure Storage CONTAINERS page URL column
-    - `InsightsKey` - Xamarin Insights configuration (using this is optional)
+- Open the solution for *Moments* and copy the template from `sample.json` in the *Moments* project, to `secrets.json` and update the values with your values.
 - Build *Moments* for either an iOS or Android device, and watch it work its magic!
 
 ### Special Thanks

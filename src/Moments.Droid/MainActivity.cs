@@ -13,6 +13,7 @@ using Acr.UserDialogs;
 using Microsoft.WindowsAzure.MobileServices;
 using Prism;
 using Prism.Ioc;
+using Android.Runtime;
 
 namespace Moments.Droid
 {
@@ -35,6 +36,13 @@ namespace Moments.Droid
             LoadApplication(new App(this));
 
             ScreenshotServiceAndroid.Activity = this;
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum]Permission[] grantResults)
+        {
+            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }

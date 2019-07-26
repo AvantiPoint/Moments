@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Moments.AzureMobileApps.Helpers;
+﻿using Moments.AzureMobileApps.Helpers;
+using Moments.Helpers;
 
 namespace Moments.Services
 {
     class ZumoConfig : IZumoConfig
     {
-        public string ApplicationURL => "";
-        public string ContainerURL => "";
-        public string ContainerName => "";
+        public string ApplicationURL => Secrets.ApplicationURL;
+        public string ContainerURL => Secrets.ContainerURL;
+        public string ContainerName => Secrets.ContainerName;
     }
 }
