@@ -2,18 +2,18 @@ using System;
 
 namespace Moments.Helpers
 {
-	public class Images
-	{
-		public static readonly string AddFriendButton = "AddFriendButton.png";
-		public static readonly string CancelButton = "CancelButton.png";
-		public static readonly string ClockButton = "ClockButton.png";
-		public static readonly string FriendRequestsButton = "FriendRequestsButton.png";
-		public static readonly string GreenCheckmark = "GreenCheckmark.png";
-		public static readonly string GreyCheckmark = "GrayCheckmark.png";
-		public static readonly string MomentsIcon = "MomentsIcon.png";
-		public static readonly string Paintbrush = "Paintbrush.png";
-		public static readonly string SendMomentButton = "SendMomentButton.png";
+    public class Images
+    {
+        public const string AddFriendButton = "AddFriendButton.png";
+        public const string CancelButton = "CancelButton.png";
+        public const string ClockButton = "ClockButton.png";
+        public const string FriendRequestsButton = "FriendRequestsButton.png";
+        public const string GreenCheckmark = "GreenCheckmark.png";
+        public const string GreyCheckmark = "GrayCheckmark.png";
+        public const string MomentsIcon = "MomentsIcon.png";
+        public const string Paintbrush = "Paintbrush.png";
+        public const string SendMomentButton = "SendMomentButton.png";
 
-	}
+    }
 }
 

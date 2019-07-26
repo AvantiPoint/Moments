@@ -1,5 +1,5 @@
 ﻿using System;
-
+using Acr.UserDialogs;
 using Android.App;
 using Android.Runtime;
 
@@ -18,6 +18,7 @@ namespace Moments.Droid
         {
             base.OnCreate();
             Xamarin.Essentials.Platform.Init(this);
+            UserDialogs.Init(this);
         }
     }
 }

@@ -1,103 +1,134 @@
 using System;
+using System.Windows.Input;
+using Moments.Helpers;
 using Xamarin.Forms;
 
 namespace Moments
 {
-	public class FriendRequestCell : ViewCell
-	{
-		Label nameLabel;
-		RoundedRectangleImage profilePhoto;
-		Image confirmCheckmarkButton;
-		Image denyCheckmarkButton;
-		StackLayout leftLayout;
-		StackLayout rightLayout;
-		StackLayout mainLayout;
+    public class FriendRequestCell : ViewCell
+    {
+        public static readonly BindableProperty ConfirmCommandProperty =
+            BindableProperty.Create(nameof(ConfirmCommand), typeof(ICommand), typeof(FriendRequestCell), null, propertyChanged: OnConfirmCommandPropertyChanged);
 
-		TapGestureRecognizer confirmCheckmarkButtonTapped, denyCheckmarkButtonTapped;
+        public static readonly BindableProperty DenyCommandProperty =
+            BindableProperty.Create(nameof(DenyCommand), typeof(ICommand), typeof(FriendRequestCell), null, propertyChanged: OnDenyCommandPropertyChanged);
 
-		public FriendRequestCell ()
-		{
-			SetupUserInterface ();
-			SetupEventHandlers ();
-			SetupBindings ();
-		}
+        private static void OnConfirmCommandPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var cell = bindable as FriendRequestCell;
+            cell.confirmCheckmarkButtonTapped.Command = (ICommand)newValue;
+        }
 
-		private void SetupUserInterface ()
-		{
-			nameLabel = new Label {
-				BackgroundColor = Color.Transparent,
-				FontAttributes = FontAttributes.None,
-				FontFamily = "HelveticaNeue-Light",
-				FontSize = 16,
-				LineBreakMode = LineBreakMode.NoWrap,
-				TextColor = Color.Black,
-				VerticalOptions = LayoutOptions.Center
-			};
+        private static void OnDenyCommandPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var cell = bindable as FriendRequestCell;
+            cell.denyCheckmarkButtonTapped.Command = (ICommand)newValue;
+        }
 
-			profilePhoto = new RoundedRectangleImage {
-				HeightRequest = 55,
-				WidthRequest = 55,
-				VerticalOptions = LayoutOptions.Center
-			};
+        Label nameLabel;
+        RoundedRectangleImage profilePhoto;
+        Image confirmCheckmarkButton;
+        Image denyCheckmarkButton;
+        StackLayout leftLayout;
+        StackLayout rightLayout;
+        StackLayout mainLayout;
 
-			leftLayout = new StackLayout {
-				Children = { profilePhoto, nameLabel },
-				Orientation = StackOrientation.Horizontal,
-				Padding = new Thickness (10, 0, 0, 0)
-			};
+        TapGestureRecognizer confirmCheckmarkButtonTapped, denyCheckmarkButtonTapped;
 
-			confirmCheckmarkButton = new Image {
-				Source = Images.GreenCheckmark,
-				HeightRequest = 43.75,
-				WidthRequest = 33.75
-			};
+        public FriendRequestCell()
+        {
+            SetupUserInterface();
+            SetupEventHandlers();
+            SetupBindings();
+        }
 
-			denyCheckmarkButton = new Image {
-				Source = "DeclineX.png",
-				HeightRequest = 27.5,
-				WidthRequest = 27.5
-			};
+        public ICommand ConfirmCommand
+        {
+            get => (ICommand)GetValue(ConfirmCommandProperty);
+            set => SetValue(ConfirmCommandProperty, value);
+        }
 
-			rightLayout = new StackLayout {
-				Children = { confirmCheckmarkButton, denyCheckmarkButton },
-				Padding = new Thickness (0, 0, 10, 0),
-				HorizontalOptions = LayoutOptions.EndAndExpand,
-				VerticalOptions = LayoutOptions.Center,
-				Spacing = 25,
-				Orientation = StackOrientation.Horizontal
-			};
+        public ICommand DenyCommand
+        {
+            get => (ICommand)GetValue(DenyCommandProperty);
+            set => SetValue(DenyCommandProperty, value);
+        }
 
-			mainLayout = new StackLayout {
-				Children = { leftLayout, rightLayout },
-				Orientation = StackOrientation.Horizontal
-			};
+        private void SetupUserInterface()
+        {
+            nameLabel = new Label
+            {
+                BackgroundColor = Color.Transparent,
+                FontAttributes = FontAttributes.None,
+                FontFamily = "HelveticaNeue-Light",
+                FontSize = 16,
+                LineBreakMode = LineBreakMode.NoWrap,
+                TextColor = Color.Black,
+                VerticalOptions = LayoutOptions.Center
+            };
 
-			View = mainLayout;
-		}
+            profilePhoto = new RoundedRectangleImage
+            {
+                HeightRequest = 55,
+                WidthRequest = 55,
+                VerticalOptions = LayoutOptions.Center
+            };
 
-		private void SetupEventHandlers ()
-		{
-			confirmCheckmarkButtonTapped = new TapGestureRecognizer ();;
-			confirmCheckmarkButtonTapped.Tapped += async (sender, e) => {
-				var user = BindingContext as User;
+            leftLayout = new StackLayout
+            {
+                Children = { profilePhoto, nameLabel },
+                Orientation = StackOrientation.Horizontal,
+                Padding = new Thickness(10, 0, 0, 0)
+            };
 
-				await FriendService.AcceptFriendship (user);
-			};
-			confirmCheckmarkButton.GestureRecognizers.Add (confirmCheckmarkButtonTapped);
+            confirmCheckmarkButton = new Image
+            {
+                Source = Images.GreenCheckmark,
+                HeightRequest = 43.75,
+                WidthRequest = 33.75
+            };
 
-			denyCheckmarkButtonTapped = new TapGestureRecognizer ();
-			denyCheckmarkButtonTapped.Tapped += async (sender, e) => {
-				var user = BindingContext as User;
+            denyCheckmarkButton = new Image
+            {
+                Source = "DeclineX.png",
+                HeightRequest = 27.5,
+                WidthRequest = 27.5
+            };
 
-				await FriendService.DenyFriendship (user);
-			};
-			denyCheckmarkButton.GestureRecognizers.Add (denyCheckmarkButtonTapped);
-		}
+            rightLayout = new StackLayout
+            {
+                Children = { confirmCheckmarkButton, denyCheckmarkButton },
+                Padding = new Thickness(0, 0, 10, 0),
+                HorizontalOptions = LayoutOptions.EndAndExpand,
+                VerticalOptions = LayoutOptions.Center,
+                Spacing = 25,
+                Orientation = StackOrientation.Horizontal
+            };
 
-		private void SetupBindings ()
-		{
-			nameLabel.SetBinding<User> (Label.TextProperty, user => user.Name);
-			profilePhoto.SetBinding<User> (Image.SourceProperty, user => user.ProfileImage);
-		}
-	}
+            mainLayout = new StackLayout
+            {
+                Children = { leftLayout, rightLayout },
+                Orientation = StackOrientation.Horizontal
+            };
+
+            View = mainLayout;
+        }
+
+        private void SetupEventHandlers()
+        {
+            confirmCheckmarkButtonTapped = new TapGestureRecognizer();
+            confirmCheckmarkButtonTapped.SetBinding(TapGestureRecognizer.CommandParameterProperty, new Binding(nameof(BindingContext), source: this));
+            confirmCheckmarkButton.GestureRecognizers.Add(confirmCheckmarkButtonTapped);
+
+            denyCheckmarkButtonTapped = new TapGestureRecognizer();
+            denyCheckmarkButtonTapped.SetBinding(TapGestureRecognizer.CommandParameterProperty, new Binding(nameof(BindingContext), source: this));
+            denyCheckmarkButton.GestureRecognizers.Add(denyCheckmarkButtonTapped);
+        }
+
+        private void SetupBindings()
+        {
+            nameLabel.SetBinding(Label.TextProperty, "Name");
+            profilePhoto.SetBinding(Image.SourceProperty, "ProfileImage");
+        }
+    }
 }

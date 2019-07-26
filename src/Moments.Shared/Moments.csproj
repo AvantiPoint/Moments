@@ -22,7 +22,7 @@
     <PackageReference Include="SQLitePCLRaw.bundle_sqlcipher" Version="1.1.14" />
     <PackageReference Include="Xam.Plugins.Forms.ImageCircle" Version="3.0.0.5" />
     <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.2.0" />
-    <PackageReference Include="Xamarin.Forms" Version="4.1.0.581479" />
+    <PackageReference Include="Xamarin.Forms" Version="4.2.0.618605-pre2" />
   </ItemGroup>
 
   <ItemGroup>

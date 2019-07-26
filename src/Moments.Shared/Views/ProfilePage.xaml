@@ -2,13 +2,14 @@
 <views:BasePage xmlns="http://xamarin.com/schemas/2014/forms" 
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                 xmlns:views="clr-namespace:Moments.Views"
+                xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+                xmlns:local="clr-namespace:Moments"
+                xmlns:prism="http://prismlibrary.com"
                 x:Class="Moments.Views.ProfilePage"
-                xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
-                xmlns:local="clr-namespace:Moments;"
                 BackgroundColor="{x:Static local:Colors.BackgroundColor}">
     <StackLayout Spacing="50">
         <StackLayout Spacing="30"
-				Padding="0, 50, 0, 0">
+                     Padding="0, 50, 0, 0">
             <controls:CircleImage 
 					Aspect="AspectFill"
 					BorderColor="White"
@@ -18,18 +19,18 @@
 					HeightRequest="125"
 					WidthRequest="125"/>
             <Label Style="{StaticResource mainLabelStyle}"
-					Text="{Binding ProfileName}" />
+                   Text="{Binding ProfileName}" />
             <StackLayout Spacing="0">
-                <Button x:Name="signOutButton"
-						Text="{x:Static local:Strings.SignOut}" />
+                <Button Text="{x:Static local:Strings.SignOut}"
+                        Command="{Binding SignOutCommand}"/>
                 <Image BackgroundColor="{x:Static local:Colors.SeparatorColor}"
 						HeightRequest="1" />
-                <Button x:Name="deleteAccountButton"
-						Text="{x:Static local:Strings.DeleteAccount}" />
+                <Button Text="{x:Static local:Strings.DeleteAccount}"
+                        Command="{Binding DeleteAccountCommand}"/>
             </StackLayout>
         </StackLayout>
-        <Button x:Name="aboutMomentsButton"
-				Text="{x:Static local:Strings.AboutMoments}" />
+        <Button Text="{x:Static local:Strings.AboutMoments}"
+                Command="{prism:NavigateTo AboutPage}"/>
     </StackLayout>
 </views:BasePage>
 

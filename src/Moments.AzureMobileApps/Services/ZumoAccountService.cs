@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using Akavache;
 using Microsoft.AppCenter;
 using Moments.AzureMobileApps.Helpers.Azure;
+using Moments.Events;
 using Moments.Services;
+using Prism.Events;
 using Prism.Logging;
 using Xamarin.Essentials.Interfaces;
 
@@ -17,12 +19,12 @@ namespace Moments.AzureMobileApps.Services
     {
         private IPreferences Preferences { get; }
         private ILogger Logger { get; }
-        private IFriendService FriendService { get; }
         private IMobileServiceClientFactory MobileServiceClientFactory { get; }
+        private IEventAggregator EventAggregator { get; }
 
-        public ZumoAccountService(IPreferences preferences, ILogger logger, IFriendService friendService, IMobileServiceClientFactory mobileServiceClientFactory)
+        public ZumoAccountService(IPreferences preferences, ILogger logger, IMobileServiceClientFactory mobileServiceClientFactory, IEventAggregator eventAggregator)
         {
-            FriendService = friendService;
+            EventAggregator = eventAggregator;
             Logger = logger;
             Preferences = preferences;
             MobileServiceClientFactory = mobileServiceClientFactory;
@@ -79,8 +81,7 @@ namespace Moments.AzureMobileApps.Services
                     Account = await GetCurrentAccount(account);
                     User = await GetCurrentUser();
 
-                    await FriendService.RefreshFriendsList();
-                    await FriendService.RefreshPendingFriendsList();
+                    EventAggregator.GetEvent<UserAuthenticatedEvent>().Publish();
 
                     var moreInformation = new CustomProperties();
                     moreInformation.Set("Name", User.Name);
@@ -109,8 +110,7 @@ namespace Moments.AzureMobileApps.Services
                 Account = await GetCurrentAccount(account);
                 User = await GetCurrentUser();
 
-                await FriendService.RefreshFriendsList();
-                await FriendService.RefreshPendingFriendsList();
+                EventAggregator.GetEvent<UserAuthenticatedEvent>().Publish();
 
                 await BlobCache.Secure.SaveLogin(account.Username, account.Password, "default",
                     DateTimeOffset.Now.AddDays(30));

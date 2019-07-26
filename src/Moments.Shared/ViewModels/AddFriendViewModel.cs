@@ -1,8 +1,15 @@
 using System;
+using System.Reactive;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Crashes;
+using Moments.Helpers;
 using Moments.Mvvm;
 using Moments.Services;
+using Prism.Logging;
+using Prism.Navigation;
+using Prism.Services.Dialogs;
+using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using Xamarin.Forms;
 
 namespace Moments
@@ -11,24 +18,18 @@ namespace Moments
     {
         private IFriendService FriendService { get; }
 
-        public AddFriendViewModel(IFriendService friendService)
+        public AddFriendViewModel(INavigationService navigationService, IDialogService dialogService, ILogger logger, IFriendService friendService) : base(navigationService, dialogService, logger)
         {
             FriendService = friendService;
+            AddFriendCommand = ReactiveCommand.CreateFromTask(ExecuteAddFriendCommand);
         }
 
         string username;
         Command addFriendCommand;
 
-        public string Username
-        {
-            get { return username; }
-            set { username = value; OnPropertyChanged("Username"); }
-        }
+        [Reactive]public string Username { get; set; }
 
-        public Command AddFriendCommand
-        {
-            get { return addFriendCommand ?? (addFriendCommand = new Command(async () => await ExecuteAddFriendCommand())); }
-        }
+        public ReactiveCommand<Unit, Unit> AddFriendCommand { get; }
 
         private async Task ExecuteAddFriendCommand()
         {

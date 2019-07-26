@@ -11,20 +11,28 @@ using Xamarin.Forms.Platform.Android;
 using ImageCircle.Forms.Plugin.Droid;
 using Acr.UserDialogs;
 using Microsoft.WindowsAzure.MobileServices;
+using Prism;
+using Prism.Ioc;
 
 namespace Moments.Droid
 {
     [Activity(Label = "Moments", Icon = "@drawable/momentsiconmini", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, NoHistory = true, ScreenOrientation = ScreenOrientation.Portrait)]
-    public class MainActivity : FormsApplicationActivity
+    public class MainActivity : FormsApplicationActivity, IPlatformInitializer
     {
-        protected override void OnCreate(Bundle bundle)
+        public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            base.OnCreate(bundle);
+            containerRegistry.Register<IScreenshotService, ScreenshotServiceAndroid>();
+        }
 
-            Forms.Init(this, bundle);
-            UserDialogs.Init(() => (Activity)Forms.Context);
+        protected override void OnCreate(Bundle savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
+
+            Forms.Init(this, savedInstanceState);
+            FormsMaterial.Init(this, savedInstanceState);
             CurrentPlatform.Init();
-            LoadApplication(new App());
+
+            LoadApplication(new App(this));
 
             ScreenshotServiceAndroid.Activity = this;
         }

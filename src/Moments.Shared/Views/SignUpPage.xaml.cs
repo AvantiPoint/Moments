@@ -1,46 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-
 using Xamarin.Forms;
 
 namespace Moments.Views
 {
-	public partial class SignUpPage : ContentPage
-	{
-		TapGestureRecognizer cancelButtonTapped;
+    public partial class SignUpPage : ContentPage
+    {
+        public SignUpPage()
+        {
+            InitializeComponent();
+            SetupEventHandlers();
+        }
 
-		public SignUpPage ()
-		{
-			BindingContext = new SignUpViewModel ();
+        private void SetupEventHandlers()
+        {
+            firstNameEntry.Completed += (object sender, EventArgs e) => {
+                lastNameEntry.Focus();
+            };
 
-			InitializeComponent ();
-			SetupEventHandlers ();
-		}
+            lastNameEntry.Completed += (object sender, EventArgs e) => {
+                usernameEntry.Focus();
+            };
 
-		private void SetupEventHandlers ()
-		{
-			firstNameEntry.Completed += (object sender, EventArgs e) => {
-				lastNameEntry.Focus ();
-			};
+            usernameEntry.Completed += (object sender, EventArgs e) => {
+                passwordEntry.Focus();
+            };
 
-			lastNameEntry.Completed += (object sender, EventArgs e) => {
-				usernameEntry.Focus ();
-			};
-
-			usernameEntry.Completed += (object sender, EventArgs e) => {
-				passwordEntry.Focus ();
-			};
-
-			passwordEntry.Completed += (object sender, EventArgs e) => {
-				emailEntry.Focus ();
-			};
-
-			cancelButtonTapped = new TapGestureRecognizer ();
-			cancelButtonTapped.Tapped += (object sender, EventArgs e) => {
-				Navigation.PopModalAsync ();
-			};
-			cancelButton.GestureRecognizers.Add (cancelButtonTapped);
-		}
-	}
+            passwordEntry.Completed += (object sender, EventArgs e) => {
+                emailEntry.Focus();
+            };
+        }
+    }
 }
 

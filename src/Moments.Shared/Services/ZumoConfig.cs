@@ -7,8 +7,8 @@ namespace Moments.Services
 {
     class ZumoConfig : IZumoConfig
     {
-        public string ApplicationURL { get; }
-        public string ContainerURL { get; }
-        public string ContainerName { get; }
+        public string ApplicationURL => "";
+        public string ContainerURL => "";
+        public string ContainerName => "";
     }
 }

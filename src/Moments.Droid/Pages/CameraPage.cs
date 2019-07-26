@@ -12,6 +12,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using Moments.Views;
 using Microsoft.AppCenter.Crashes;
+using Prism.Events;
+using Prism.Ioc;
 
 [assembly:ExportRenderer(typeof(Moments.Views.CameraPage), typeof(Moments.Droid.CameraPage))]
 namespace Moments.Droid
@@ -191,8 +193,10 @@ namespace Moments.Droid
 				imageBytes = imageStream.ToArray ();
 			}
 
-			var navigationPage = new NavigationPage (new DrawMomentPage (imageBytes)) {
-				BarBackgroundColor = Colors.NavigationBarColor,
+            //var navigationPage = new NavigationPage (new DrawMomentPage (imageBytes)) {
+            var navigationPage = new NavigationPage(new DrawMomentPage(App.Current.Container.Resolve<IEventAggregator>()))
+            {
+                BarBackgroundColor = Colors.NavigationBarColor,
 				BarTextColor = Colors.NavigationBarTextColor
 			};
 

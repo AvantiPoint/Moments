@@ -10,6 +10,8 @@ using Moments.Mvvm;
 using Prism.Services.Dialogs;
 using Prism.Navigation;
 using Moments.Helpers;
+using System.Reactive;
+using ReactiveUI;
 
 namespace Moments.ViewModels
 {
@@ -26,20 +28,25 @@ namespace Moments.ViewModels
             FriendService = friendService;
             Title = Strings.FriendRequests;
             friendRequests = FriendService.PendingFriends;
+
+            FetchFriendRequestsCommand = ReactiveCommand.CreateFromTask(ExecuteFetchFriendsCommand);
+            ConfirmCommand = ReactiveCommand.CreateFromTask<User>(OnConfirmCommandExecuted);
+            DenyCommand = ReactiveCommand.CreateFromTask<User>(OnDenyCommandExecuted);
         }
 
         public ObservableCollection<User> FriendRequests
         {
-            get { return friendRequests; }
-            set { friendRequests = value; }
+            get => friendRequests;
+            set => friendRequests = value;
         }
 
-        public Command FetchFriendRequestsCommand
-        {
-            get { return fetchFriendRequestsCommand ?? (fetchFriendRequestsCommand = new Command(async () => await ExecuteFetchFriendsCommand())); }
-        }
+        public ReactiveCommand<Unit, Unit> FetchFriendRequestsCommand { get; }
 
-        public async Task ExecuteFetchFriendsCommand()
+        public ReactiveCommand<User, Unit> ConfirmCommand { get; }
+
+        public ReactiveCommand<User, Unit> DenyCommand { get; }
+
+        private async Task ExecuteFetchFriendsCommand()
         {
             if (IsBusy)
             {
@@ -65,6 +72,16 @@ namespace Moments.ViewModels
             }
 
             IsBusy = false;
+        }
+
+        private async Task OnConfirmCommandExecuted(User user)
+        {
+            await FriendService.AcceptFriendship(user);
+        }
+
+        private async Task OnDenyCommandExecuted(User user)
+        {
+            await FriendService.DenyFriendship(user);
         }
     }
 }

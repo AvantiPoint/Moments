@@ -10,12 +10,18 @@ using Moments.ViewModels;
 using Prism.Navigation;
 using Moments.Services;
 using Moments.AzureMobileApps.Helpers;
+using Prism;
+using Prism.Events;
+using Moments.Events;
 
 namespace Moments
 {
     public partial class App
     {
-        public App() { }
+        public App(IPlatformInitializer initializer)
+            : base(initializer)
+        {
+        }
 
         public static NavigationPage FetchMainUI()
         {
@@ -108,6 +114,14 @@ namespace Moments
         {
             InitializeComponent();
 
+            var eventAggregator = Container.Resolve<IEventAggregator>();
+            eventAggregator.GetEvent<UserAuthenticatedEvent>().Subscribe(async () =>
+            {
+                var friendService = Container.Resolve<IFriendService>();
+                await friendService.RefreshFriendsList();
+                await friendService.RefreshPendingFriendsList();
+            });
+
             INavigationResult result = null;
             if (Container.Resolve<IAccountService>().ReadyToSignIn)
             {
@@ -133,14 +147,21 @@ namespace Moments
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.Register<IZumoConfig, ZumoConfig>();
+            containerRegistry.RegisterSingleton<IZumoConfig, ZumoConfig>();
 
             containerRegistry.RegisterForNavigation<WelcomePage, WelcomePageViewModel>();
+            containerRegistry.RegisterForNavigation<SignInPage, SignInViewModel>();
+            containerRegistry.RegisterForNavigation<SignUpPage, SignUpViewModel>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<ZumoBackendModule>();
+        }
+
+        protected override void LoadModuleCompleted(IModuleInfo moduleInfo, Exception error, bool isHandled)
+        {
+            base.LoadModuleCompleted(moduleInfo, error, isHandled);
         }
     }
 }

@@ -3,12 +3,18 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
                 xmlns:views="clr-namespace:Moments.Views"
                 x:Class="Moments.Views.SendMomentPage"
-                xmlns:local="clr-namespace:Moments;">
+                xmlns:local="clr-namespace:Moments">
+    <views:BasePage.ToolbarItems>
+        <ToolbarItem Text="{x:Static local:Strings.Send}"
+                     Priority="1"
+                     Command="{Binding SendMomentCommand}" />
+    </views:BasePage.ToolbarItems>
     <StackLayout>
         <ListView x:Name="friendsListView"
-				ItemsSource="{Binding Friends}"
-				BackgroundColor="White"
-				RowHeight="70">
+                  ItemSelected="OnFriendsListViewItemSelected"
+                  ItemsSource="{Binding Friends}"
+                  BackgroundColor="White"
+                  RowHeight="70">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <local:SendMomentCell />

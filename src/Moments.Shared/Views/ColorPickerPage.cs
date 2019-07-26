@@ -80,8 +80,9 @@ namespace Moments.Views
             grid.Children.Add(new Button { BackgroundColor = Colors.ColorPickerColorEleven, BorderColor = Color.White }, 1, 3);
             grid.Children.Add(new Button { BackgroundColor = Colors.ColorPickerColorTwelve, BorderColor = Color.White }, 2, 3);
 
-            var currentPenColor = grid.Children.Single(x => x.BackgroundColor == ViewModel.PenColor) as Button;
-            currentPenColor.BorderWidth = 5;
+            // TODO: Handle Pen Color Changes
+            //var currentPenColor = grid.Children.Single(x => x.BackgroundColor == ViewModel.PenColor) as Button;
+            //currentPenColor.BorderWidth = 5;
 
             return grid;
         }
@@ -97,7 +98,8 @@ namespace Moments.Views
             var selectedButton = s as Button;
             selectedButton.BorderWidth = 5;
 
-            ViewModel.PenColor = selectedButton.BackgroundColor;
+            // TODO: Handle PenColor Changes
+            //ViewModel.PenColor = selectedButton.BackgroundColor;
             Navigation.PopAsync();
         }
     }
