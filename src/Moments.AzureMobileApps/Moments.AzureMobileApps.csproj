@@ -11,7 +11,7 @@
     <PackageReference Include="akavache" Version="6.5.9" />
     <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.2.0" />
     <PackageReference Include="Microsoft.Azure.Mobile.Client" Version="4.1.1" />
-    <PackageReference Include="Prism.Forms.Extended" Version="1.0.0.511-pre" />
+    <PackageReference Include="Prism.Forms.Extended" Version="7.2.0.550" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
   </ItemGroup>
 
