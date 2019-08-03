@@ -24,9 +24,6 @@ namespace Moments
             AddFriendCommand = ReactiveCommand.CreateFromTask(ExecuteAddFriendCommand);
         }
 
-        string username;
-        Command addFriendCommand;
-
         [Reactive]public string Username { get; set; }
 
         public ReactiveCommand<Unit, Unit> AddFriendCommand { get; }

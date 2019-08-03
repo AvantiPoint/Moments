@@ -40,5 +40,9 @@
 	<true/>
 	<key>MinimumOSVersion</key>
 	<string>8.0</string>
+	<key>CFBundleName</key>
+	<string>Moments</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We want to take pretty pictures of your food and such...</string>
 </dict>
 </plist>

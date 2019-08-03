@@ -201,6 +201,22 @@
       <Project>{c8090afe-71b1-451d-a2b7-90f02b30adfe}</Project>
       <Name>Moments</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Moments.Abstractions\Moments.Abstractions.csproj">
+      <Project>{37C333CC-6CFA-48C3-9CF8-2E5D853C97D4}</Project>
+      <Name>Moments.Abstractions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Moments.AzureMobileApps\Moments.AzureMobileApps.csproj">
+      <Project>{153E32ED-D2B0-4EC6-8870-240E768BAB41}</Project>
+      <Name>Moments.AzureMobileApps</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Moments.Controls\Moments.Controls.csproj">
+      <Project>{7BD4C216-52F8-4FE7-81B7-B71DB11DC9E0}</Project>
+      <Name>Moments.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Moments.MockData\Moments.MockData.csproj">
+      <Project>{E51138DD-4346-43FA-BB51-42B66B0457A7}</Project>
+      <Name>Moments.MockData</Name>
+    </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

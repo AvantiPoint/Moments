@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Moments.Helpers;
 using Xamarin.Forms;
 
 namespace Moments.Views

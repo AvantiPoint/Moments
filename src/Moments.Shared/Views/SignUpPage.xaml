@@ -1,14 +1,13 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:local="clr-namespace:Moments"
-             xmlns:helpers="clr-namespace:Moments.Helpers"
+             xmlns:local="http://moments.dev"
              xmlns:prism="http://prismlibrary.com"
              x:Class="Moments.Views.SignUpPage"
              BackgroundColor="{x:Static local:Colors.BackgroundColor}">
     <StackLayout Spacing="25">
         <StackLayout Padding="15, 15, 0, 0">
-            <Image Source="{x:Static helpers:Images.CancelButton}"
+            <Image Source="{x:Static local:Images.CancelButton}"
                    HorizontalOptions="Start"
                    HeightRequest="25"
                    WidthRequest="25">

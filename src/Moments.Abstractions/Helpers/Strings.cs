@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Moments
+namespace Moments.Helpers
 {
 	public static class Strings
 	{

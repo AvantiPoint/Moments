@@ -1,4 +1,5 @@
 ﻿using System;
+using Moments.Helpers;
 using Xamarin.Forms;
 
 namespace Moments.Views

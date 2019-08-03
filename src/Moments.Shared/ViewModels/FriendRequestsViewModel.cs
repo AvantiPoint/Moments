@@ -18,27 +18,20 @@ namespace Moments.ViewModels
     public class FriendRequestsViewModel : BaseViewModel
     {
         private IFriendService FriendService { get; }
-        ObservableCollection<User> friendRequests;
-
-        Command fetchFriendRequestsCommand;
 
         public FriendRequestsViewModel(INavigationService navigationService, IDialogService dialogService, IFriendService friendService, ILogger logger)
             : base(navigationService, dialogService, logger)
         {
             FriendService = friendService;
             Title = Strings.FriendRequests;
-            friendRequests = FriendService.PendingFriends;
+            FriendRequests = FriendService.PendingFriends;
 
             FetchFriendRequestsCommand = ReactiveCommand.CreateFromTask(ExecuteFetchFriendsCommand);
             ConfirmCommand = ReactiveCommand.CreateFromTask<User>(OnConfirmCommandExecuted);
             DenyCommand = ReactiveCommand.CreateFromTask<User>(OnDenyCommandExecuted);
         }
 
-        public ObservableCollection<User> FriendRequests
-        {
-            get => friendRequests;
-            set => friendRequests = value;
-        }
+        public ObservableCollection<User> FriendRequests { get; }
 
         public ReactiveCommand<Unit, Unit> FetchFriendRequestsCommand { get; }
 

@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <views:BasePage xmlns="http://xamarin.com/schemas/2014/forms" 
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                xmlns:local="http://moments.dev"
                 xmlns:views="clr-namespace:Moments.Views"
-                x:Class="Moments.Views.SendMomentPage"
-                xmlns:local="clr-namespace:Moments">
+                x:Class="Moments.Views.SendMomentPage">
     <views:BasePage.ToolbarItems>
         <ToolbarItem Text="{x:Static local:Strings.Send}"
                      Priority="1"

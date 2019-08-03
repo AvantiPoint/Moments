@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Moments.Helpers;
 using Xamarin.Forms;
 
 namespace Moments.Views

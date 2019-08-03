@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <views:BasePage xmlns="http://xamarin.com/schemas/2014/forms"
           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-          x:Class="Moments.Views.AboutPage"
-          xmlns:local="clr-namespace:Moments;"
+          xmlns:local="http://moments.dev"
           xmlns:views="clr-namespace:Moments.Views"
           BackgroundColor="{x:Static local:Colors.BackgroundColor}"
-          Title="{x:Static local:Strings.About}">
+          Title="{x:Static local:Strings.About}"
+          x:Class="Moments.Views.AboutPage">
     <ScrollView>
         <ScrollView.Content>
             <StackLayout Spacing="25"

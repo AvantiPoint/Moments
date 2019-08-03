@@ -1,4 +1,6 @@
 using System;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Moments.Helpers;
 using Moments.Mvvm;
@@ -6,6 +8,7 @@ using Moments.Services;
 using Prism.Logging;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Xamarin.Forms;
 
@@ -19,6 +22,8 @@ namespace Moments
             : base(navigationService, dialogService, logger)
         {
             AccountService = accountService;
+            
+            SignInUserCommand = ReactiveCommand.CreateFromTask(ExecuteSignInUserCommand, SignInUserCommand.IsExecuting.Select(x => !x));
         }
 
         Command logInUserCommand;
@@ -27,18 +32,10 @@ namespace Moments
 
         [Reactive]public string Password { get; set; }
 
-        public Command SignInUserCommand
-        {
-            get { return logInUserCommand ?? (logInUserCommand = new Command(async () => await ExecuteSignInUserCommand())); }
-        }
+        public ReactiveCommand<Unit,Unit> SignInUserCommand { get; }
 
         private async Task ExecuteSignInUserCommand()
         {
-            if (IsBusy)
-            {
-                return;
-            }
-
             IsBusy = true;
 
             try

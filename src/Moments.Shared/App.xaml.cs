@@ -14,6 +14,7 @@ using Prism;
 using Prism.Events;
 using Moments.Events;
 using Moments.Dialogs;
+using Moments.Helpers;
 
 namespace Moments
 {
@@ -51,7 +52,7 @@ namespace Moments
             if (Device.RuntimePlatform != Device.Android)
             {
                 NavigationPage.SetHasNavigationBar(carouselPage, false);
-                carouselPage.CurrentPage = cameraPage;
+                carouselPage.CurrentPage = friendsPage;
             }
             else
             {
@@ -160,7 +161,8 @@ namespace Moments
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            moduleCatalog.AddModule<ZumoBackendModule>();
+            //moduleCatalog.AddModule<ZumoBackendModule>();
+            moduleCatalog.AddModule<MockData.MockDataModule>();
         }
 
         protected override void LoadModuleCompleted(IModuleInfo moduleInfo, Exception error, bool isHandled)

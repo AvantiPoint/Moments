@@ -1,21 +1,18 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:Moments"
-             xmlns:helpers="clr-namespace:Moments.Helpers"
+             xmlns:moments="http://moments.dev"
              xmlns:prism="http://prismlibrary.com"
              x:Class="Moments.Views.WelcomePage"
-             xmlns:views="clr-namespace:Moments.Views"
              Visual="Material"
-             BackgroundColor="{x:Static local:Colors.BackgroundColor}">
+             BackgroundColor="{x:Static moments:Colors.BackgroundColor}">
     <StackLayout Spacing="35"
                  Padding="0, 60, 0, 0">
         <StackLayout Spacing="30">
-            <!--Source="{x:Static local:Images.MomentsIcon}"-->
-            <Image Source="{FileImageSource File={x:Static helpers:Images.MomentsIcon}}"
+            <Image Source="{FileImageSource File={x:Static moments:Images.MomentsIcon}}"
                    HeightRequest="162.5"
                    WidthRequest="162.5" />
-            <Label Text = "{x:Static local:Strings.Moments}"
+            <Label Text = "{x:Static moments:Strings.Moments}"
                    Style="{StaticResource mainLabelStyle}"/>
             <Label Text="v2.0"
                    Style="{DynamicResource SubtitleStyle}"
@@ -24,12 +21,12 @@
         </StackLayout>
         <StackLayout Spacing="0">
             <Button x:Name="signUpButton" 
-                    Text="{x:Static local:Strings.SignUp}"
+                    Text="{x:Static moments:Strings.SignUp}"
                     Command="{prism:NavigateTo SignUpPage}"/>
-            <Image BackgroundColor="{x:Static local:Colors.SeparatorColor}"
+            <Image BackgroundColor="{x:Static moments:Colors.SeparatorColor}"
                    HeightRequest="1" />
             <Button x:Name="signInButton"
-                    Text="{x:Static local:Strings.SignIn}"
+                    Text="{x:Static moments:Strings.SignIn}"
                     Command="{prism:NavigateTo SignInPage}"/>
         </StackLayout>
     </StackLayout>

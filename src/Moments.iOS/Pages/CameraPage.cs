@@ -67,6 +67,8 @@ namespace Moments.iOS
             liveCameraStream.Layer.AddSublayer(videoPreviewLayer);
 
             var captureDevice = AVCaptureDevice.GetDefaultDevice(AVMediaTypes.Video);
+            // HACK: Dunno why this is returning null????
+            if (captureDevice is null) return;
             ConfigureCameraForDevice(captureDevice);
             captureDeviceInput = AVCaptureDeviceInput.FromDevice(captureDevice);
 

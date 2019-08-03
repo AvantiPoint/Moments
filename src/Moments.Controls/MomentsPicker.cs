@@ -1,7 +1,7 @@
 using System;
 using Xamarin.Forms;
 
-namespace Moments
+namespace Moments.Controls
 {
 	public class MomentsPicker : Picker
 	{

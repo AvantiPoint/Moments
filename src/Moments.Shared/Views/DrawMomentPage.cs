@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Moments.Controls;
 using Moments.Converters;
 using Moments.Events;
 using Moments.Helpers;
@@ -13,7 +14,7 @@ namespace Moments.Views
     {
         MomentsPicker picker;
         Image cancelButton, clockButton, colorButton, sendButton;
-        TapGestureRecognizer cancelButtonTapped, clockButtonTapped, colorButtonTapped, sendButtonTapped;
+        TapGestureRecognizer cancelButtonTapped, colorButtonTapped, sendButtonTapped;
         RelativeLayout mainLayout;
 
         //public DrawMomentPage(byte[] image)

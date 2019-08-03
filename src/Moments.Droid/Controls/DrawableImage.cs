@@ -2,14 +2,20 @@
 using System.ComponentModel;
 using Xamarin.Forms.Platform.Android;
 using Xamarin.Forms;
+using Moments.Controls;
+using Android.Content;
 
 // Source: https://github.com/MitchMilam/Drawit
-[assembly: ExportRenderer(typeof(Moments.DrawableImage), typeof(Moments.Android.DrawableImageRenderer))]
+[assembly: ExportRenderer(typeof(Moments.Controls.DrawableImage), typeof(Moments.Android.DrawableImageRenderer))]
 namespace Moments.Android
 {
 	public class DrawableImageRenderer : ViewRenderer<DrawableImage, DrawView> 
 	{
-		protected override void OnElementChanged(ElementChangedEventArgs<DrawableImage> e)
+        public DrawableImageRenderer(Context context) : base(context)
+        {
+        }
+
+        protected override void OnElementChanged(ElementChangedEventArgs<DrawableImage> e)
 		{
 			base.OnElementChanged(e);
 

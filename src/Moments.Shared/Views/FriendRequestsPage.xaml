@@ -1,13 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <views:BasePage xmlns="http://xamarin.com/schemas/2014/forms" 
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                xmlns:helpers="clr-namespace:Moments.Helpers"
+                xmlns:local="http://moments.dev"
                 xmlns:views="clr-namespace:Moments.Views"
                 xmlns:prism="http://prismlibrary.com"
-                x:Class="Moments.Views.FriendRequestsPage"
-                xmlns:local="clr-namespace:Moments">
+                x:Class="Moments.Views.FriendRequestsPage">
     <views:BasePage.ToolbarItems>
-        <ToolbarItem IconImageSource="{x:Static helpers:Images.CancelButton}"
+        <ToolbarItem IconImageSource="{x:Static local:Images.CancelButton}"
                      Priority="1"
                      Command="{prism:GoBack}" />
     </views:BasePage.ToolbarItems>

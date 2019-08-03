@@ -3,7 +3,7 @@ using System.Windows.Input;
 using Moments.Helpers;
 using Xamarin.Forms;
 
-namespace Moments
+namespace Moments.Controls
 {
     public class FriendRequestCell : ViewCell
     {

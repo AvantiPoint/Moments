@@ -2,7 +2,7 @@ using System;
 using Moments.Helpers;
 using Xamarin.Forms;
 
-namespace Moments
+namespace Moments.Controls
 {
     public class SendMomentCell : ViewCell
     {
@@ -95,8 +95,8 @@ namespace Moments
 
         private void SetupBindings()
         {
-            nameLabel.SetBinding<User>(Label.TextProperty, user => user.Name);
-            profilePhoto.SetBinding<User>(Image.SourceProperty, user => user.ProfileImage);
+            nameLabel.SetBinding(Label.TextProperty, nameof(User.Name));
+            profilePhoto.SetBinding(Image.SourceProperty, nameof(User.ProfileImage));
         }
     }
 }
