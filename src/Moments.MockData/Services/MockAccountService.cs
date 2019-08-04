@@ -23,7 +23,7 @@ namespace Moments.MockData.Services
             return Task.FromResult(true);
         }
 
-        public Task<bool> Login(Account account)
+        public async Task<bool> Login(Account account)
         {
             var success = account.Username.Equals("prism", StringComparison.InvariantCultureIgnoreCase) && account.Password.Equals("rocks", StringComparison.InvariantCultureIgnoreCase);
 
@@ -35,7 +35,8 @@ namespace Moments.MockData.Services
                 Account.UserId = "foobar";
             }
 
-            return Task.FromResult(success);
+            await Task.Delay(4500).ConfigureAwait(false);
+            return success;
         }
 
         public Task Register(Account account, User user)

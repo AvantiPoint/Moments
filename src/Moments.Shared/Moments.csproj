@@ -35,7 +35,4 @@
     <ProjectReference Include="..\Moments.MockData\Moments.MockData.csproj" />
     <ProjectReference Include="..\Moments.Controls\Moments.Controls.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controls\" />
-  </ItemGroup>
 </Project>

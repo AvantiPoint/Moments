@@ -17,9 +17,9 @@ namespace Moments.Droid
     [Activity(Label = "Moments", MainLauncher = true, Theme = "@style/Theme.NoTitleBar", NoHistory = true)]
     public class SplashActivity : Activity
     {
-        protected override async void OnCreate(Bundle bundle)
+        protected override void OnCreate(Bundle savedInstanceState)
         {
-            base.OnCreate(bundle);
+            base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.SplashLayout);
 

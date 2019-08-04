@@ -23,10 +23,8 @@ namespace Moments
         {
             AccountService = accountService;
             
-            SignInUserCommand = ReactiveCommand.CreateFromTask(ExecuteSignInUserCommand, SignInUserCommand.IsExecuting.Select(x => !x));
+            SignInUserCommand = ReactiveCommand.CreateFromTask(ExecuteSignInUserCommand);
         }
-
-        Command logInUserCommand;
 
         [Reactive]public string Username { get; set; }
 
@@ -48,7 +46,7 @@ namespace Moments
 
                     if (result)
                     {
-                        NavigateToMainUI();
+                        await NavigationService.NavigateAsync(Navigation.MainUri);
                     }
                     else
                     {
@@ -77,11 +75,6 @@ namespace Moments
             };
 
             return await AccountService.Login(account);
-        }
-
-        private void NavigateToMainUI()
-        {
-            App.Current.MainPage = App.FetchMainUI();
         }
     }
 }

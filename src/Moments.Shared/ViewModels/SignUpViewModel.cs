@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reactive;
 using System.Threading.Tasks;
 using Microsoft.AppCenter.Crashes;
 using Moments.Helpers;
@@ -8,6 +9,7 @@ using Moments.Services;
 using Prism.Logging;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Xamarin;
 using Xamarin.Forms;
@@ -16,13 +18,12 @@ namespace Moments.ViewModels
 {
     public class SignUpViewModel : BaseViewModel
     {
-
-        Command signUpUserCommand;
         private IAccountService AccountService { get; }
 
         public SignUpViewModel(INavigationService navigationService, IDialogService dialogService, ILogger logger, IAccountService accountService) : base(navigationService, dialogService, logger)
         {
             AccountService = accountService;
+            SignUpUserCommand = ReactiveCommand.CreateFromTask(ExecuteSignUpUserCommand);
         }
 
         [Reactive] public string FirstName { get; set; }
@@ -35,10 +36,7 @@ namespace Moments.ViewModels
 
         [Reactive] public string Email { get; set; }
 
-        public Command SignUpUserCommand
-        {
-            get { return signUpUserCommand ?? (signUpUserCommand = new Command(async () => await ExecuteSignUpUserCommand())); }
-        }
+        public ReactiveCommand<Unit,Unit> SignUpUserCommand { get; }
 
         private async Task ExecuteSignUpUserCommand()
         {
@@ -71,7 +69,7 @@ namespace Moments.ViewModels
                     await CreateAccount(account, user);
 
                     await SignIn(account);
-                    NavigateToMainUI();
+                    await NavigationService.NavigateAsync(Helpers.Navigation.MainUri);
 
                     DialogService.HideLoading();
                 }
@@ -96,11 +94,6 @@ namespace Moments.ViewModels
         private async Task SignIn(Account account)
         {
             await AccountService.Login(account);
-        }
-
-        private void NavigateToMainUI()
-        {
-            App.Current.MainPage = App.FetchMainUI();
         }
     }
 }

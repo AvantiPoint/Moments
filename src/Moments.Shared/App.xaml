@@ -39,6 +39,10 @@
         <Setter Property="TextColor"
           Value="White" />
       </Style>
+      <Style TargetType="NavigationPage">
+        <Setter Property="BarBackgroundColor" Value="{StaticResource NavigationBarColor}" />
+        <Setter Property="BarTextColor" Value="{StaticResource NavigationBarTextColor}" />
+      </Style>
     </ResourceDictionary>
   </prism:PrismApplication.Resources>
 </prism:PrismApplication>
