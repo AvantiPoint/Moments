@@ -6,9 +6,10 @@ namespace Moments
 	{
 
         //--- Properties ---
-		[JsonProperty("user")]
-        public Account Account { get; set; }
 		[JsonProperty("account")]
+        public Account Account { get; set; }
+
+		[JsonProperty("user")]
         public User User { get; set; }
 	}
 

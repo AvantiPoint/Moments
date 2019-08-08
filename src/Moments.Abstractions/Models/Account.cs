@@ -6,10 +6,10 @@ namespace Moments
 	{
 		public string Id { get; set; }
 
-		[JsonProperty ("username")]
+		[JsonProperty ("username"), JsonRequired]
 		public string Username { get; set; }
 
-		[JsonProperty ("password")]
+		[JsonProperty ("password"), JsonRequired]
 		public string Password { get; set; }
 
 		[JsonProperty ("email")]
