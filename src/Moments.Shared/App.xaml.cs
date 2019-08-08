@@ -119,7 +119,8 @@ namespace Moments
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             //moduleCatalog.AddModule<AzureMobileApps.ZumoBackendModule>();
-            moduleCatalog.AddModule<MockData.MockDataModule>();
+            //moduleCatalog.AddModule<MockData.MockDataModule>();
+            moduleCatalog.AddModule<AWSBackend.AWSModule>();
         }
 
 #pragma warning disable RECS0165 // Asynchronous methods should return a Task instead of void

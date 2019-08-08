@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Moments.Abstractions\Moments.Abstractions.csproj" />
+    <PackageReference Include="Prism.Plugin.Logging.Abstractions" Version="7.2.0.560" />
+    <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.2.0" />
+    <PackageReference Include="Prism.Forms.Extended" Version="7.2.0.550" />
+  </ItemGroup>
+
+</Project>

@@ -31,6 +31,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Moments.Abstractions\Moments.Abstractions.csproj" />
+    <ProjectReference Include="..\Moments.AWSBackend\Moments.AWSBackend.csproj" />
     <ProjectReference Include="..\Moments.AzureMobileApps\Moments.AzureMobileApps.csproj" />
     <ProjectReference Include="..\Moments.MockData\Moments.MockData.csproj" />
     <ProjectReference Include="..\Moments.Controls\Moments.Controls.csproj" />
