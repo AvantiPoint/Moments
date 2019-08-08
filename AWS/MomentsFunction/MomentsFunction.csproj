@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Deterministic>true</Deterministic>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <RootNamespace>Moments.Api.MomentsFunction</RootNamespace>
+    <AWSProjectType>Lambda</AWSProjectType>
+    <NoWarn>CS1998</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Amazon.Lambda.Core" Version="1.1.0"/>
+    <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.5.0"/>
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.3.101.50"/>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\src\Moments.Abstractions\Models\User.cs"/>
+    <Compile Include="..\..\src\Moments.Abstractions\Models\Account.cs"/>
+    <Compile Include="..\..\src\Moments.Abstractions\Models\AccountRegistrationRequest.cs"/>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Condition="'$(LAMBDASHARP)'==''" Include="LambdaSharp" Version="0.6.*"/>
+    <ProjectReference Condition="'$(LAMBDASHARP)'!=''" Include="$(LAMBDASHARP)/src/LambdaSharp/LambdaSharp.csproj"/>
+  </ItemGroup>
+</Project>

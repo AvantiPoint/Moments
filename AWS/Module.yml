@@ -1,0 +1,26 @@
+Module: Moments.Api
+Items:
+
+  - Resource: Table
+    Scope: MomentsFunction
+    Type: AWS::DynamoDB::Table
+    Allow: ReadWrite
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: PK
+          AttributeType: S
+        - AttributeName: SK
+          AttributeType: S
+      KeySchema:
+        - AttributeName: PK
+          KeyType: HASH
+        - AttributeName: SK
+          KeyType: RANGE
+
+  - Function: MomentsFunction
+    Memory: 256
+    Timeout: 30
+    Sources:
+      - Api: POST:/registration
+        Invoke: Registration

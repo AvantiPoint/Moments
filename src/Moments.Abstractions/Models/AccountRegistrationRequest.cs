@@ -4,15 +4,13 @@ namespace Moments
 {
 	public class AccountRegistrationRequest
 	{
+
         //--- Properties ---
 		[JsonProperty("user")]
-        Account Account { get; set; }
+        public Account Account { get; set; }
 		[JsonProperty("account")]
-        User User { get; set; }
+        public User User { get; set; }
 	}
 
-    public class AccountRegistrationResponse
-    {
-
-    }
+    public class AccountRegistrationResponse { }
 }
