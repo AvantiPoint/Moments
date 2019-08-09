@@ -2,5 +2,6 @@
   "ApplicationURL": "",
   "ContainerURL": "",
   "ContainerName": "",
-  "AppCenterKey": ""
+  "AppCenterKey": "",
+  "AwsBackendUri": ""
 }

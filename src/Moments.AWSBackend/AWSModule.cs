@@ -16,6 +16,7 @@ namespace Moments.AWSBackend
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterSingleton<IAwsClient, AwsClient>();
             containerRegistry.RegisterSingleton<IAccountService, AwsAccountService>();
             containerRegistry.RegisterSingleton<IFriendService, AwsFriendService>();
             containerRegistry.RegisterSingleton<IMomentService, AwsMomentsService>();

@@ -39,6 +39,8 @@
         <Setter Property="TextColor"
           Value="White" />
       </Style>
+      <Color x:Key="NavigationBarColor">#000000</Color>
+      <Color x:Key="NavigationBarTextColor">#FFFFFF</Color>
       <Style TargetType="NavigationPage">
         <Setter Property="BarBackgroundColor" Value="{StaticResource NavigationBarColor}" />
         <Setter Property="BarTextColor" Value="{StaticResource NavigationBarTextColor}" />

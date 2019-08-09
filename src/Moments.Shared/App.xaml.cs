@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Moments.AWSBackend.Helpers;
 using Moments.AzureMobileApps.Helpers;
 using Moments.Behaviors;
 using Moments.Dialogs;
@@ -104,6 +105,7 @@ namespace Moments
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterSingleton<IAwsConfig, AwsConfig>();
             containerRegistry.RegisterSingleton<IZumoConfig, ZumoConfig>();
 
             containerRegistry.RegisterSingleton<IPageBehaviorFactory, MomentsBehaviorFactory>();
