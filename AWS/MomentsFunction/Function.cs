@@ -10,6 +10,7 @@ using Amazon.DynamoDBv2.Model;
 using System.Security.Cryptography;
 using System.Text;
 using System.Linq;
+using System.Collections.Generic;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
@@ -25,7 +26,7 @@ namespace Moments.Api.MomentsFunction {
     public class AccountRecord : ARecord {
 
         //--- Properties ---
-        public string SK { get; } = "account";
+        public string SK { get; } = "ACCOUNT";
         public string Password { get; set; }
         public string Email { get; set; }
         public string Name { get; set; }
@@ -45,11 +46,13 @@ namespace Moments.Api.MomentsFunction {
         //--- Fields ---
         private IAmazonDynamoDB _dynamoDbClient;
         private Table _table;
+        private string _encryptionKeyArn;
 
         //--- Methods ---
         public override async Task InitializeAsync(LambdaConfig config) {
             _dynamoDbClient = new AmazonDynamoDBClient();
             _table = Table.LoadTable(_dynamoDbClient, config.ReadDynamoDBTableName("Table"));
+            _encryptionKeyArn = config.ReadText("EncryptionKey");
         }
 
         public async Task<AccountRegistrationResponse> RegistrationAsync(AccountRegistrationRequest request) {
@@ -61,7 +64,7 @@ namespace Moments.Api.MomentsFunction {
             }
             try {
                 var document = Document.FromJson(SerializeJson(new AccountRecord {
-                    PK = request.Account.Username,
+                    PK = request.Account.Username.ToLowerInvariant(),
                     Password = HashText(request.Account.Password),
                     Email = request.Account.Email,
                     Name = request.User?.Name,
@@ -94,7 +97,7 @@ namespace Moments.Api.MomentsFunction {
                 SessionToken = await EncryptSecretAsync(SerializeJson(new SessionInfo {
                     Username = request.Account.Username,
                     Salt = record.Salt
-                }))
+                }), _encryptionKeyArn)
             };
         }
 
@@ -102,15 +105,18 @@ namespace Moments.Api.MomentsFunction {
             try {
                 var session = DeserializeJson<SessionInfo>(await DecryptSecretAsync(request.SessionToken));
                 var document = new Document {
-                    ["PK"] = session.Username,
-                    ["SK"] = "account",
+                    ["PK"] = session.Username.ToLowerInvariant(),
+                    ["SK"] = "ACCOUNT",
                     ["Salt"] = Guid.NewGuid().ToString("N").ToUpperInvariant()
                 };
-                await _table.UpdateItemAsync(document/*, new UpdateItemOperationConfig {
+                await _table.UpdateItemAsync(document, new UpdateItemOperationConfig {
                     ConditionalExpression = new Expression {
-
+                        ExpressionStatement = "Salt = :salt",
+                        ExpressionAttributeValues = new Dictionary<string, DynamoDBEntry> {
+                            [":salt"] = session.Salt
+                        }
                     }
-                }*/);
+                });
             } catch(ConditionalCheckFailedException) {
                 LogInfo("update condition failed");
                 throw AbortBadRequest("invalid session token");

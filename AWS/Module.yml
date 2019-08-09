@@ -1,6 +1,30 @@
 Module: Moments.Api
 Items:
 
+  - Parameter: EncryptionKey
+    Scope: MomentsFunction
+    Section: Moments API Settings
+    Label: KMS key used by Moments API to encrypt sensitive information (leave blank to create a new key)
+    Description: Encryption Key (ARN)
+    Type: AWS::KMS::Key
+    AllowedPattern: '(arn:aws:kms:.*)?'
+    ConstraintDescription: Must be a valid KMS Key ARN or left blank
+    Allow:
+      - kms:Decrypt
+      - kms:Encrypt
+    Properties:
+      Description: !Sub "Moments API encryption key for ${AWS::StackName}"
+      KeyPolicy:
+        Version: 2012-10-17
+        Id: !Sub "${AWS::StackName}MomentsAPiSecretsKeyPolicy"
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
+            Action:
+              - kms:*
+            Resource: "*"
+
   - Resource: Table
     Scope: MomentsFunction
     Type: AWS::DynamoDB::Table
@@ -31,3 +55,7 @@ Items:
 
       - Api: POST:/signout
         Invoke: SignOut
+
+  - Variable: API
+    Scope: public
+    Value: !Ref Module::RestApi::Url
