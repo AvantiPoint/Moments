@@ -27,4 +27,14 @@ namespace Moments
 		[JsonProperty("sessionToken")]
 		public string SessionToken { get; set; }
 	}
+
+	public class SignOutRequest {
+
+		//--- Properties ---
+		public string SessionToken { get; set; }
+	}
+
+	public class SignOutResponse {
+
+	}
 }

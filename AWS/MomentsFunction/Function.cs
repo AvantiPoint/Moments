@@ -30,6 +30,14 @@ namespace Moments.Api.MomentsFunction {
         public string Email { get; set; }
         public string Name { get; set; }
         public string ProfileImage { get; set; }
+        public string Salt { get; set; }
+    }
+
+    public class SessionInfo {
+
+        //--- Properties ---
+        public string Username { get; set; }
+        public string Salt { get; set; }
     }
 
     public class Function : ALambdaApiGatewayFunction {
@@ -57,7 +65,8 @@ namespace Moments.Api.MomentsFunction {
                     Password = HashText(request.Account.Password),
                     Email = request.Account.Email,
                     Name = request.User?.Name,
-                    ProfileImage = request.User?.ProfileImage
+                    ProfileImage = request.User?.ProfileImage,
+                    Salt = Guid.NewGuid().ToString("N").ToUpperInvariant()
                 }));
                 await _table.PutItemAsync(document, new PutItemOperationConfig {
                     ConditionalExpression = new Expression {
@@ -82,8 +91,34 @@ namespace Moments.Api.MomentsFunction {
                 throw AbortNotFound("invalid username or password");
             }
             return new LoginResponse {
-                SessionToken = await EncryptSecretAsync(request.Account.Username)
+                SessionToken = await EncryptSecretAsync(SerializeJson(new SessionInfo {
+                    Username = request.Account.Username,
+                    Salt = record.Salt
+                }))
             };
+        }
+
+        public async Task<SignOutResponse> SignOutAsync(SignOutRequest request) {
+            try {
+                var session = DeserializeJson<SessionInfo>(await DecryptSecretAsync(request.SessionToken));
+                var document = new Document {
+                    ["PK"] = session.Username,
+                    ["SK"] = "account",
+                    ["Salt"] = Guid.NewGuid().ToString("N").ToUpperInvariant()
+                };
+                await _table.UpdateItemAsync(document/*, new UpdateItemOperationConfig {
+                    ConditionalExpression = new Expression {
+
+                    }
+                }*/);
+            } catch(ConditionalCheckFailedException) {
+                LogInfo("update condition failed");
+                throw AbortBadRequest("invalid session token");
+            } catch(Exception e) {
+                LogErrorAsInfo(e, "unable to recover the session info");
+                throw AbortBadRequest("invalid session token");
+            }
+            return new SignOutResponse { };
         }
 
         private string HashText(string text) {

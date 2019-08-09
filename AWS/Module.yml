@@ -28,3 +28,6 @@ Items:
 
       - Api: POST:/login
         Invoke: Login
+
+      - Api: POST:/signout
+        Invoke: SignOut
