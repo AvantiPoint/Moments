@@ -48,6 +48,9 @@ namespace Moments.Api.MomentsFunction {
             if(request.Account.Email == null) {
                 throw AbortBadRequest("missing email address");
             }
+            if(request.Account.Username.Length < 2) {
+                throw AbortBadRequest("username too short");
+            }
             try {
                 var document = Document.FromJson(SerializeJson(new AccountRecord {
                     PK = request.Account.Username,
@@ -65,6 +68,22 @@ namespace Moments.Api.MomentsFunction {
             } catch(ConditionalCheckFailedException) {
                 throw AbortBadRequest("account is already registered");
             }
+        }
+
+        public async Task<LoginResponse> LoginAsync(LoginRequest request) {
+            var document = await _table.GetItemAsync(Document.FromJson(SerializeJson(new AccountRecord {
+                PK = request.Account.Username
+            })));
+            if(document == null) {
+                throw AbortNotFound("invalid username or password");
+            }
+            var record = DeserializeJson<AccountRecord>(document.ToJson());
+            if(record.Password != HashText(request.Account.Password)) {
+                throw AbortNotFound("invalid username or password");
+            }
+            return new LoginResponse {
+                SessionToken = await EncryptSecretAsync(request.Account.Username)
+            };
         }
 
         private string HashText(string text) {

@@ -22,5 +22,9 @@ Items:
     Memory: 256
     Timeout: 30
     Sources:
+
       - Api: POST:/registration
         Invoke: Registration
+
+      - Api: POST:/login
+        Invoke: Login
