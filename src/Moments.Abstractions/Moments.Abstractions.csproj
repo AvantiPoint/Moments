@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Humanizer" Version="2.6.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Prism.Forms.Extended" Version="7.2.0.550" />
     <PackageReference Include="ReactiveUI" Version="9.19.5" />
     <PackageReference Include="ReactiveUI.Fody" Version="9.19.5" />
